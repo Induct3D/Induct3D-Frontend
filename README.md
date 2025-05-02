@@ -43,7 +43,6 @@ src/
 ├── infrastructure/       # API base, hooks globales, rutas, constantes
 ├── presentation/         # Componentes visuales, layouts y vistas
 ├── main.tsx              # Punto de entrada
-└── App.tsx               # Rutas principales
 ```
 ## 📦 Instalación y ejecución
 ```githubexpressionlanguage
@@ -59,7 +58,7 @@ npm run dev
 
 ```
 
-##🧪 Scripts disponibles
+## 🧪 Scripts disponibles
 ```githubexpressionlanguage
 npm run dev       # Inicia el servidor de desarrollo
 npm run build     # Compila para producción
