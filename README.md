@@ -1,54 +1,68 @@
-# React + TypeScript + Vite
+# 🎮 Inducto3D – Creador de Recorridos 3D Interactivos
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Inducto3D** es una aplicación web que permite a cualquier persona crear recorridos de inducción interactivos en entornos 3D personalizados, sin necesidad de saber programar. Ideal para onboarding empresarial, recorridos educativos o presentaciones inmersivas.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Características principales
 
-## Expanding the ESLint configuration
+- 🌍 Ambientes 3D personalizables basados en plantillas `.glb`
+- 🎨 Cambio de texturas y colores en tiempo real
+- 🧍 Personaje guía con opciones editables y narración
+- 🎮 Inserción de minijuegos gamificados
+- 🔒 Publicación con acceso libre o protegido por contraseña
+- 💾 CRUD de recorridos: crear, editar, previsualizar y compartir
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 🧱 Tecnologías utilizadas
+
+### Frontend
+
+- [React](https://react.dev/) + [Vite](https://vitejs.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Three.js](https://threejs.org/) + [@react-three/fiber](https://github.com/pmndrs/react-three-fiber)
+- [Redux Toolkit](https://redux-toolkit.js.org/) + RTK Query
+- [Zod](https://zod.dev/) + React Hook Form
+- [React Router DOM](https://reactrouter.com/)
+
+### Backend (previsto)
+
+- [Spring Boot](https://spring.io/projects/spring-boot)
+- [MongoDB](https://www.mongodb.com/) para almacenar estructuras de recorridos
+- Autenticación con JWT
+
+---
+
+## 📁 Estructura del proyecto
+
+```plaintext
+src/
+├── assets/               # Modelos, texturas, imágenes, audio
+├── features/             # Lógica por dominio (auth, projects, editor, games)
+├── infrastructure/       # API base, hooks globales, rutas, constantes
+├── presentation/         # Componentes visuales, layouts y vistas
+├── main.tsx              # Punto de entrada
+└── App.tsx               # Rutas principales
+```
+## 📦 Instalación y ejecución
+```githubexpressionlanguage
+# 1. Clonar el repositorio
+git clone https://github.com/Induct3D/Induct3D-Frontend.git
+cd inducto3d
+
+# 2. Instalar dependencias
+npm install
+
+# 3. Ejecutar en desarrollo
+npm run dev
+
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+##🧪 Scripts disponibles
+```githubexpressionlanguage
+npm run dev       # Inicia el servidor de desarrollo
+npm run build     # Compila para producción
+npm run preview   # Previsualiza el build
 ```
+
