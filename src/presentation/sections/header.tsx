@@ -37,14 +37,14 @@ export default function Header() {
             </nav>
 
             {/* Botón login */}
-            <div>
+            <button type="button">
                 <Link
                     to="/iniciar-sesion"
                     className="bg-[#A71C20] text-white px-5 py-2 rounded-lg font-semibold hover:opacity-90 transition"
                 >
                     Iniciar sesión
                 </Link>
-            </div>
+            </button>
         </header>
 
     )
