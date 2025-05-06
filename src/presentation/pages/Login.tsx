@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router";
 import {LoginDTO, LoginSchema} from "../../infrastructure/schemas/LoginSchema.ts";
+import {useNavigate} from "react-router";
 
 export default function Login() {
     const {
@@ -11,10 +12,13 @@ export default function Login() {
     } = useForm<LoginDTO>({
         resolver: zodResolver(LoginSchema),
     });
+    const navigate = useNavigate();
+
 
     const onSubmit = (data: LoginDTO) => {
         console.log("🔐 Iniciar sesión con:", data);
         // Aquí iría la lógica de autenticación real
+        navigate("/dashboard");
     };
 
     return (

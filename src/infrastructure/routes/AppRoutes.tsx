@@ -6,6 +6,8 @@ import Login from "../../presentation/pages/Login.tsx";
 import Error404 from "../../presentation/pages/Error404.tsx";
 import Register from "../../presentation/pages/Register.tsx";
 import RecoverPassword from "../../presentation/pages/RecoverPassword.tsx";
+import CreatorLayout from "../../presentation/layout/CreatorLayout.tsx";
+import Dashboard from "../../presentation/pages/Creator/Dashboard.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -16,6 +18,15 @@ export const router = createBrowserRouter([
             {path: "recorridos", element: <Tours/>}
         ]
     },
+    {
+        path: "/dashboard",
+        element: <CreatorLayout />,
+        children: [
+            { index: true, element: <Dashboard /> },
+            // Aquí luego puedes agregar: crear, configuracion, etc.
+        ],
+    },
+
     {path: "iniciar-sesion", element: <Login/>},
     {path: "registrarse", element: <Register/>},
     {path: "recuperar-contrasena", element: <RecoverPassword/>},
