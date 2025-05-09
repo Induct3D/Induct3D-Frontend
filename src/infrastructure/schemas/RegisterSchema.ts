@@ -1,10 +1,10 @@
-// src/infrastructure/schemas/registerSchema.ts
 import { z } from "zod";
 
 export const RegisterSchema = z
     .object({
-        firstName: z.string().min(1, "El nombre es obligatorio"),
-        lastName: z.string().min(1, "El apellido es obligatorio"),
+        username: z.string().min(1, "El nombre de usuario es obligatorio"),
+        name: z.string().min(1, "El nombre es obligatorio"),
+        surname: z.string().min(1, "El apellido es obligatorio"),
         email: z
             .string()
             .min(1, "El correo es obligatorio")

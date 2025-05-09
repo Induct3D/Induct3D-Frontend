@@ -1,21 +1,41 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterDTO, RegisterSchema } from "../../infrastructure/schemas/RegisterSchema";
-import { Link } from "react-router";
+import { Link, useNavigate} from "react-router";
+import {useRegisterMutation} from "../../features/auth/authApi.ts";
+import {useEffect} from "react";
+import {getErrorMessage} from "../../infrastructure/utils/getErrorMessage.ts";
 
 export default function Register() {
+    const navigate = useNavigate()
+
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors }
     } = useForm<RegisterDTO>({
-        resolver: zodResolver(RegisterSchema),
-    });
+        resolver: zodResolver(RegisterSchema)
+    })
 
-    const onSubmit = (data: RegisterDTO) => {
-        console.log("Registro exitoso:", data);
-        // Aquí puedes hacer la petición al backend
-    };
+    const [registerUser, { isLoading, isSuccess, isError, error, data }] = useRegisterMutation()
+
+    const onSubmit = (formData: RegisterDTO) => {
+        registerUser(formData)
+    }
+
+    useEffect(() => {
+        if (isLoading) {
+            console.log("Registrando usuario...")
+        }
+        if (isSuccess && data) {
+            console.log("Registro exitoso:", data.message)
+            navigate("/iniciar-sesion")
+        }
+        if (isError) {
+            console.error("Error en el registro:", error)
+        }
+    }, [isLoading, isSuccess, isError, data, error, navigate])
+
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
@@ -34,25 +54,36 @@ export default function Register() {
                 </h2>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                    {/* Nombre de usuario */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Nombre de usuario</label>
+                        <input
+                            {...register("username")}
+                            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#A71C20]"
+                        />
+                        {errors.username && <p className="text-sm text-red-600 mt-1">{errors.username.message}</p>}
+                    </div>
+
                     {/* Nombre */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
                         <input
-                            {...register("firstName")}
+                            {...register("name")}
                             className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#A71C20]"
                         />
-                        {errors.firstName && <p className="text-sm text-red-600 mt-1">{errors.firstName.message}</p>}
+                        {errors.name && <p className="text-sm text-red-600 mt-1">{errors.name.message}</p>}
                     </div>
 
                     {/* Apellido */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Apellido</label>
                         <input
-                            {...register("lastName")}
+                            {...register("surname")}
                             className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#A71C20]"
                         />
-                        {errors.lastName && <p className="text-sm text-red-600 mt-1">{errors.lastName.message}</p>}
+                        {errors.surname && <p className="text-sm text-red-600 mt-1">{errors.surname.message}</p>}
                     </div>
+
 
                     {/* Correo */}
                     <div>
@@ -88,6 +119,13 @@ export default function Register() {
                             <p className="text-sm text-red-600 mt-1">{errors.confirmPassword.message}</p>
                         )}
                     </div>
+
+                    {isLoading && <p className="text-sm text-gray-500">Registrando...</p>}
+                    {isError && (
+                        <p className="text-sm text-red-600">
+                            {getErrorMessage(error)}
+                        </p>
+                    )}
 
                     {/* Botones */}
                     <div className="flex justify-between gap-4 mt-6">

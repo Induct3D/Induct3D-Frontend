@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { FiHome, FiPlusSquare, FiSettings, FiLogOut, FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import Logo from "/LogoInduct3D.png"
 
 const navItems = [
     { path: "/dashboard", label: "Inicio", icon: <FiHome /> },
@@ -9,6 +10,13 @@ const navItems = [
 ];
 
 export default function Sidebar() {
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        localStorage.removeItem("token")
+        navigate("/")
+    }
+
     const location = useLocation();
     const [expanded, setExpanded] = useState(true);
 
@@ -30,9 +38,14 @@ export default function Sidebar() {
                 </button>
 
                 {/* Logo (condicional) */}
-                {expanded && (
-                    <h1 className="text-xl font-bold text-[#A71C20] mb-6 pl-2">Induct3D</h1>
-                )}
+                <div className="mb-6 pl-2 flex items-center justify-start h-8">
+                    {expanded ? (
+                        <h1 className="text-xl font-bold text-[#A71C20]">Induct3D</h1>
+                    ) : (
+                        <img src={Logo} alt="Logo Induct3D" className="h-6 w-auto" />
+                    )}
+                </div>
+
 
                 {/* Navegación */}
                 <nav className="space-y-4">
@@ -57,13 +70,13 @@ export default function Sidebar() {
             </div>
 
             {/* Cerrar sesión */}
-            <Link
-                to="/"
-                className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 font-medium hover:bg-gray-100 transition"
+            <button
+                onClick={handleLogout}
+                className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 font-medium hover:bg-gray-100 transition w-full text-left"
             >
                 <FiLogOut className="text-lg" />
                 {expanded && <span>Cerrar sesión</span>}
-            </Link>
+            </button>
         </aside>
     );
 }
