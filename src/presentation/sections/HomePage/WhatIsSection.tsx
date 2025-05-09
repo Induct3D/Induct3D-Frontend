@@ -17,7 +17,7 @@ export default function WhatIsSection() {
                 {/* Imagen a la derecha */}
                 <div className="flex-1 max-w-md">
                     <img
-                        src="/src/assets/images/Preview.png"
+                        src="/Preview.png"
                         alt="Vista previa de Induct3D"
                         className="rounded-xl shadow-lg w-full object-cover"
                     />
