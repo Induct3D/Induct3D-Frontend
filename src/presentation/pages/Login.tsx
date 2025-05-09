@@ -37,7 +37,7 @@ export default function Login() {
                 to="/"
                 className="absolute top-6 left-6 text-sm text-[#A71C20] font-medium hover:underline"
             >
-                ← Volver a la página principal
+                ← Volver a la página principa
             </Link>
 
             <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg">
