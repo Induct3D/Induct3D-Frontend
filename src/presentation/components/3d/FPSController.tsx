@@ -89,7 +89,7 @@ export default function FPSController() {
             ref={body}
             mass={1}
             type="dynamic"
-            position={[0, 1, -3.5]}
+            position={[0, 1, 0]}
             enabledRotations={[false, false, false]}
         >
             <CapsuleCollider args={[0.35, 0.8]} />

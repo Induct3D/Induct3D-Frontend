@@ -5,6 +5,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../infrastructure/store/store.ts";
 import {Physics, RigidBody} from "@react-three/rapier";
 import FPSController from "../../components/3d/FPSController.tsx";
+import GuideCharacter from "../../components/3d/GuideCharacter.tsx";
 
 function SceneModel() {
     const glbUrl = useSelector((state: RootState) => state.selectedTemplate.glbUrl);
@@ -29,7 +30,9 @@ export default function ModelViewerCanvas() {
                 </Suspense>
                 <FPSController />
 
-                <RigidBody type="fixed" colliders="cuboid">
+                <GuideCharacter/>
+
+                    <RigidBody type="fixed" colliders="cuboid">
                     <mesh position={[0, 0, 0]}>
                         <boxGeometry args={[100, 1, 100]} />
                         <meshStandardMaterial visible={false} />
