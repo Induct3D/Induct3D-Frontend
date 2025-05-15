@@ -9,7 +9,7 @@ import RecoverPassword from "../../presentation/pages/RecoverPassword.tsx"
 import CreatorLayout from "../../presentation/layout/CreatorLayout.tsx"
 import Dashboard from "../../presentation/pages/Creator/Dashboard.tsx"
 import PrivateRoute from "../../infrastructure/routes/PrivateRoute.tsx"
-import CreateTourPage from "../../presentation/pages/Creator/CreateTour.tsx";
+import CreateTour from "../../presentation/pages/Creator/CreateTour.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -31,7 +31,7 @@ export const router = createBrowserRouter([
                 element: <CreatorLayout />,
                 children: [
                     { index: true, element: <Dashboard /> },
-                    { path: "crear", element: <CreateTourPage /> }
+                    { path: "crear", element: <CreateTour /> }
                 ]
             }
         ]
