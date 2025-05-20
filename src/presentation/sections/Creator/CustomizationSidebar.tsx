@@ -4,6 +4,9 @@ import { useGLTF } from "@react-three/drei";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../infrastructure/store/store.ts";
 import CharacterEditor from "./CharacterEditor";
+import { CreateTourSchema } from "../../../infrastructure/schemas/CreateTourSchema";
+import { useCreateTourMutation } from "../../../features/auth/tourApi.ts";
+import { useNavigate } from "react-router";
 
 export default function CustomizationSidebar() {
     const glbUrl = useSelector((state: RootState) => state.selectedTemplate.glbUrl);
@@ -13,8 +16,11 @@ export default function CustomizationSidebar() {
     const [materials, setMaterials] = useState<Record<string, THREE.MeshStandardMaterial>>({});
     const [selectedColors, setSelectedColors] = useState<Record<string, string>>({});
 
-    const [name, setName] = useState("");
+    const [tourName, setTourName] = useState("");
     const [description, setDescription] = useState("");
+
+    const [createTour] = useCreateTourMutation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const editable = Object.entries(loadedMaterials).filter(
@@ -43,16 +49,31 @@ export default function CustomizationSidebar() {
 
     const getDisplayName = (raw: string) => raw.replace(/edit\s*/i, "").trim();
 
-    const handleSave = () => {
+    const handleSave = async () => {
         const payload = {
-            name,
+            tourName,
             description,
             templateId,
             materialColors: selectedColors,
             voiceText,
         };
-        console.log("Guardando recorrido:", payload);
-        // Aquí irá la petición POST al backend en el siguiente paso
+
+        console.log("Payload:", payload);
+
+        const parsed = CreateTourSchema.safeParse(payload);
+        if (!parsed.success) {
+            console.error("Error de validación:", parsed.error.format());
+            return;
+        }
+
+        try {
+            await createTour(parsed.data).unwrap();
+            alert("Recorrido guardado exitosamente");
+            navigate("/dashboard");
+        } catch (error) {
+            console.error("Error al guardar el recorrido:", error);
+            alert("Hubo un problema al guardar el recorrido");
+        }
     };
 
     return (
@@ -63,8 +84,8 @@ export default function CustomizationSidebar() {
                 <label className="block font-medium text-gray-700 mb-1">Nombre del recorrido</label>
                 <input
                     type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    value={tourName}
+                    onChange={(e) => setTourName(e.target.value)}
                     className="w-full border rounded p-2 text-sm"
                 />
             </div>
