@@ -20,7 +20,7 @@ function SceneModel() {
 
 export default function ModelViewerCanvas() {
     return (
-        <Canvas camera={{ position: [0, 2, 5], fov: 50 }}>
+        <Canvas camera={{ position: [0, 2, 20], fov: 50 }}>
             <ambientLight intensity={2.5} />
             <directionalLight position={[10, 10, 5]} intensity={1} />
 

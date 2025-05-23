@@ -10,6 +10,7 @@ import {setSelectedTemplate} from "../../../infrastructure/slices/selectedTempla
 interface SelectTemplateModalProps {
     isOpen: boolean;
     onClose: () => void;
+    onConfirm: (templateId: string | null) => void;
 }
 
 export default function SelectTemplateModal({ isOpen, onClose }: SelectTemplateModalProps) {

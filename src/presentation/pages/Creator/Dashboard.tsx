@@ -42,7 +42,7 @@ export default function Dashboard() {
                             id={tour.tourId}
                             title={tour.tourName || "Sin título"}
                             description={tour.description}
-                            imageUrl="/default-thumbnail.png"
+                            imageUrl="/img/OfficeTemplate/LateralOfficeTemplate.png"
                         />
                     ))}
                 </div>

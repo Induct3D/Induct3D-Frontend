@@ -5,7 +5,7 @@ export const templateApi = induct3dApi.injectEndpoints({
     endpoints: (builder) => ({
         getMyTemplates: builder.query<TemplateResponse[], void>({
             query: () => ({
-                url: "/api/templates/my",
+                url: "/api/templates",
                 method: "GET",
             }),
         }),

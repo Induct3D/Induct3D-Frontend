@@ -11,9 +11,9 @@ export const mockTemplates: Template[] = [
         name: "Oficina Moderna",
         description: "Ambiente 3D con escritorios, sillas y paredes blancas.",
         images: [
-            "/img/OfficeTemplate/TopOfficeTemplate.png",
-            "/img/OfficeTemplate/DiagonalOfficeTemplate.png",
             "/img/OfficeTemplate/DetailOfficeTemplate.png",
+            "/img/OfficeTemplate/LateralOfficeTemplate.png",
+            "/img/OfficeTemplate/TopOfficeTemplate.png",
         ],
     },
     {

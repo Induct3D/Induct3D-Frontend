@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
-import { FiHome, FiPlusSquare, FiSettings, FiLogOut, FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { FiHome, FiPlusSquare,  FiLogOut, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import Logo from "/LogoInduct3D.png"
 
 const navItems = [
     { path: "/dashboard", label: "Inicio", icon: <FiHome /> },
-    { path: "/dashboard/configuracion", label: "Configuración", icon: <FiSettings /> },
+    // { path: "/dashboard/configuracion", label: "Configuración", icon: <FiSettings /> },
 ];
 
 export default function Sidebar({ onOpenModal }: { onOpenModal: () => void }) {
