@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
-import { FiHome, FiPlusSquare, FiSettings, FiLogOut, FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { FiHome, FiPlusSquare,  FiLogOut, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import Logo from "/LogoInduct3D.png"
 
 const navItems = [
     { path: "/dashboard", label: "Inicio", icon: <FiHome /> },
-    { path: "/dashboard/crear", label: "Crear recorrido", icon: <FiPlusSquare /> },
-    { path: "/dashboard/configuracion", label: "Configuración", icon: <FiSettings /> },
+    // { path: "/dashboard/configuracion", label: "Configuración", icon: <FiSettings /> },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ onOpenModal }: { onOpenModal: () => void }) {
     const navigate = useNavigate()
 
     const handleLogout = () => {
@@ -66,6 +65,13 @@ export default function Sidebar() {
                             </Link>
                         );
                     })}
+                    <button
+                        onClick={onOpenModal}
+                        className={`flex items-center gap-3 px-3 py-2 mb-2 rounded-lg font-medium transition text-gray-700 hover:bg-gray-100 w-full`}
+                    >
+                        <FiPlusSquare className="text-lg" />
+                        {expanded && <span>Crear recorrido</span>}
+                    </button>
                 </nav>
             </div>
 

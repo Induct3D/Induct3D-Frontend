@@ -8,8 +8,9 @@ import Register from "../../presentation/pages/Register.tsx"
 import RecoverPassword from "../../presentation/pages/RecoverPassword.tsx"
 import CreatorLayout from "../../presentation/layout/CreatorLayout.tsx"
 import Dashboard from "../../presentation/pages/Creator/Dashboard.tsx"
-import ViewerPage from "../../presentation/sections/Viewer.tsx"
 import PrivateRoute from "../../infrastructure/routes/PrivateRoute.tsx"
+import CreateTour from "../../presentation/pages/Creator/CreateTour.tsx";
+import ViewTour from "../../presentation/pages/ViewTour.tsx"
 
 export const router = createBrowserRouter([
     {
@@ -31,7 +32,7 @@ export const router = createBrowserRouter([
                 element: <CreatorLayout />,
                 children: [
                     { index: true, element: <Dashboard /> },
-                    { path: "crear", element: <ViewerPage /> }
+                    { path: "crear", element: <CreateTour /> }
                 ]
             }
         ]
@@ -41,6 +42,8 @@ export const router = createBrowserRouter([
     { path: "iniciar-sesion", element: <Login /> },
     { path: "registrarse", element: <Register /> },
     { path: "recuperar-contrasena", element: <RecoverPassword /> },
+
+    { path: "/recorrido/:id", element: <ViewTour /> },
 
     { path: "/*", element: <Error404 /> }
 ])
