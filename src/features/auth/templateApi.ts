@@ -9,7 +9,16 @@ export const templateApi = induct3dApi.injectEndpoints({
                 method: "GET",
             }),
         }),
+        getGlbUrlByTemplateId: builder.query<string, string>({
+            query: (templateId) => ({
+                url: `/api/templates/${templateId}/glb`,
+                responseHandler: (response) => response.text(),
+            }),
+        }),
     }),
 });
 
-export const { useGetMyTemplatesQuery } = templateApi;
+export const {
+    useGetMyTemplatesQuery,
+    useGetGlbUrlByTemplateIdQuery,
+} = templateApi;
