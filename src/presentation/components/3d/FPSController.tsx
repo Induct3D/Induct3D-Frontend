@@ -4,7 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import {useStore} from "../../../infrastructure/store/positionStore.ts";
 
-export default function FPSController() {
+export default function FPSController({
+                                          userStart,
+                                      }: {
+    userStart: { x: number; y: number; z: number };
+}) {
     const { camera, gl } = useThree();
     useRapier();
     const body = useRef<RapierRigidBody>(null);
@@ -102,15 +106,14 @@ export default function FPSController() {
             ref={body}
             mass={1}
             type="dynamic"
-            position={[0, 3, 0]}
+            position={[userStart.x, 3, userStart.z]} // ← SOLO X y Z personalizados
             enabledRotations={[false, false, false]}
         >
             <CapsuleCollider args={[0.05, 0.8]} />
             <mesh>
                 <capsuleGeometry args={[0.05, 0.85, 8, 16]} />
-                <meshBasicMaterial color="orange"/>
+                <meshBasicMaterial color="orange" />
             </mesh>
         </RigidBody>
-
     );
 }

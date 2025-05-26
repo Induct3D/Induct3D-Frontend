@@ -11,7 +11,6 @@ function SceneModel({ glbUrl }: { glbUrl: string }) {
     const { scene } = useGLTF(glbUrl);
 
     useEffect(() => {
-
         // Recentrar en X y Z
         const box = new THREE.Box3().setFromObject(scene);
         const center = new THREE.Vector3();
@@ -28,7 +27,15 @@ function SceneModel({ glbUrl }: { glbUrl: string }) {
 
 
 
-export default function ModelViewerCanvas({ glbUrl }: { glbUrl: string }) {
+export default function ModelViewerCanvas({
+                                              glbUrl,
+                                              predefinedSteps,
+                                              userStart,
+                                          }: {
+    glbUrl: string;
+    predefinedSteps: { id: string; position: { x: number; y: number; z: number }[] }[];
+    userStart: { x: number; y: number; z: number };
+}) {
     const { position } = useStore();
 
     return (
@@ -36,18 +43,16 @@ export default function ModelViewerCanvas({ glbUrl }: { glbUrl: string }) {
             <Canvas camera={{ position: [0, 1.6, 20], fov: 50 }}>
                 <ambientLight intensity={2.5} />
                 <directionalLight position={[10, 10, 5]} intensity={1} />
-
                 <Physics gravity={[0, -9.81, 0]} debug={false}>
                     <RigidBody type="fixed" colliders="trimesh">
                         <Suspense fallback={null}>
-                            {glbUrl && glbUrl.endsWith(".glb") && <SceneModel glbUrl={glbUrl} />}
+                            <SceneModel glbUrl={glbUrl} />
                         </Suspense>
                     </RigidBody>
 
-                    <FPSController />
-                    <GuideCharacter />
+                    <FPSController userStart={userStart}/>
+                    <GuideCharacter steps={predefinedSteps} /> {/* Aquí va lo importante */}
 
-                    {/* Piso visual */}
                     <RigidBody type="fixed" colliders="cuboid">
                         <mesh position={[0, 2.39, 0]}>
                             <boxGeometry args={[100, 0.1, 100]} />
@@ -55,7 +60,6 @@ export default function ModelViewerCanvas({ glbUrl }: { glbUrl: string }) {
                         </mesh>
                     </RigidBody>
                 </Physics>
-
                 <OrbitControls />
             </Canvas>
 
