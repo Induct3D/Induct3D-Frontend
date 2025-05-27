@@ -2,8 +2,13 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { CapsuleCollider, RapierRigidBody, RigidBody, useRapier } from "@react-three/rapier";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+import {useStore} from "../../../infrastructure/store/positionStore.ts";
 
-export default function FPSController() {
+export default function FPSController({
+                                          userStart,
+                                      }: {
+    userStart: { x: number; y: number; z: number };
+}) {
     const { camera, gl } = useThree();
     useRapier();
     const body = useRef<RapierRigidBody>(null);
@@ -14,6 +19,8 @@ export default function FPSController() {
     const [rotation, setRotation] = useState({ x: 0, y: 0 });
     const [isActive, setIsActive] = useState(false);
     const [isCanvasFocused, setIsCanvasFocused] = useState(false);
+
+    const setCameraPosition = useStore((state) => state.setPosition);
 
     // Activar movimiento al hacer click en el canvas
     useEffect(() => {
@@ -75,7 +82,8 @@ export default function FPSController() {
         if (!body.current) return;
 
         const pos = body.current.translation();
-        camera.position.set(pos.x, pos.y + 1.6, pos.z);
+        setCameraPosition({ x: pos.x, y: pos.y, z: pos.z });
+        camera.position.set(pos.x, pos.y + 0.65, pos.z);
 
         camera.rotation.order = "YXZ";
         camera.rotation.y = rotation.y;
@@ -98,10 +106,14 @@ export default function FPSController() {
             ref={body}
             mass={1}
             type="dynamic"
-            position={[0, 1, 0]}
+            position={[userStart.x, 3, userStart.z]} // ← SOLO X y Z personalizados
             enabledRotations={[false, false, false]}
         >
-            <CapsuleCollider args={[0.35, 0.8]} />
+            <CapsuleCollider args={[0.05, 0.8]} />
+            <mesh>
+                <capsuleGeometry args={[0.05, 0.85, 8, 16]} />
+                <meshBasicMaterial color="orange" />
+            </mesh>
         </RigidBody>
     );
 }

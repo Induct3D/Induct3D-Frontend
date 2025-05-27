@@ -51,7 +51,7 @@ export default function SelectTemplateModal({ isOpen, onClose }: SelectTemplateM
                 glbUrl: selectedTemplate.glbUrl,
             }));
             onClose();
-            navigate("/dashboard/crear");
+            navigate(`/dashboard/crear?template=${selectedTemplate.id}`);
         }
     };
 
