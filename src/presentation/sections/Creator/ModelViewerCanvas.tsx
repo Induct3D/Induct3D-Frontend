@@ -26,7 +26,6 @@ function SceneModel({ glbUrl }: { glbUrl: string }) {
 }
 
 
-
 export default function ModelViewerCanvas({
                                               glbUrl,
                                               predefinedSteps,
