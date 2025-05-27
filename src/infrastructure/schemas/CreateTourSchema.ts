@@ -5,7 +5,18 @@ export const CreateTourSchema = z.object({
     description: z.string().min(1),
     templateId: z.string().min(1),
     materialColors: z.record(z.string(), z.string().regex(/^#([0-9a-fA-F]{6})$/)),
-    voiceText: z.string().min(1),
+    steps: z.array(
+        z.object({
+            stepId: z.string().min(1),
+            messages: z.array(z.string().min(1)),
+            boardMedia: z
+                .object({
+                    type: z.enum(["image", "video"]),
+                    urls: z.array(z.string().url()),
+                })
+                .optional(),
+        })
+    ),
 });
 
 export type CreateTourDTO = z.infer<typeof CreateTourSchema>;
