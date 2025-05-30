@@ -172,7 +172,7 @@ export default function GuideCharacterWithSpeech({
 
     function speakMessage(msg: string) {
         const utterance = new SpeechSynthesisUtterance(msg);
-        utterance.lang = "es-ES";
+        utterance.lang = "es-PE";
         speechSynthesis.cancel();
         speechSynthesis.speak(utterance);
     }

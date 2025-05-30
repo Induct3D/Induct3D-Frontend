@@ -71,6 +71,7 @@ export default function TourViewerCanvas({
 
     return (
         <>
+            {/* Canvas para el modelo */}
             <Canvas camera={{ fov: 50 }}>
                 <ambientLight intensity={2.5} />
                 <directionalLight position={[10, 10, 5]} intensity={1} />
@@ -106,7 +107,7 @@ export default function TourViewerCanvas({
                     className="
             fixed bottom-8
             left-1/2 transform -translate-x-1/2
-            bg-black bg-opacity-70 text-white
+            bg-black/70 text-white
             px-6 py-3
             rounded-lg
             max-w-md w-1/3
@@ -119,6 +120,18 @@ export default function TourViewerCanvas({
                     {subtitle}
                 </div>
             )}
+
+            {/* Mensaje de indicaciones en la parte superior izquierda */}
+            <div
+                className="
+          fixed top-8 left-8 bg-black/50 text-white px-4 py-3 rounded-lg
+          max-w-xs text-sm z-50"
+            >
+                <p className="mb-2"><strong>Movimientos:</strong></p>
+                <p>- Haz clic en el área del modelo (clic en el canvas) para mover la cámara con el mouse.</p>
+                <p className="mt-2">- Usa las teclas: W (adelante), A (izquierda), S (atrás), D (derecha).</p>
+                <p className="mt-2">- Presiona espacio para avanzar al siguiente paso.</p>
+            </div>
         </>
     );
 }
