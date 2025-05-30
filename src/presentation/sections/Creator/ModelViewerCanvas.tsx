@@ -25,7 +25,6 @@ function SceneModel({ glbUrl }: { glbUrl: string }) {
     return <primitive object={scene} />;
 }
 
-
 export default function ModelViewerCanvas({
                                               glbUrl,
                                               predefinedSteps,
