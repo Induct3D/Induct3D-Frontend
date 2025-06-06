@@ -15,7 +15,12 @@ export interface StepMessage {
 export interface PredefinedStep {
     id: string;
     position: { x: number; y: number; z: number }[];
-    hasBoard?: boolean;
+    hasBoard?: boolean | null;
+    boardConfig?: {
+        position: { x: number; y: number; z: number };
+        rotation?: { x: number; y: number; z: number };
+        scale?: number;
+    } | null;
 }
 
 export type MaterialMap = Record<string, MeshStandardMaterial>;
