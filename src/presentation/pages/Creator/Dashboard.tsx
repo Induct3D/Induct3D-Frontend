@@ -7,6 +7,7 @@ import {useDeleteTourMutation, useGetMyToursQuery } from "../../../features/auth
 import ConfirmDeleteModal from "../../components/Modals/ConfirmDeleteModal.tsx";
 
 export default function Dashboard() {
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
 
