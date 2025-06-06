@@ -15,6 +15,9 @@ export const tourApi = induct3dApi.injectEndpoints({
         getMyTours: builder.query<Tour[], void>({
             query: () => "/api/tours/my",
         }),
+        getAllTours: builder.query<Tour[], void>({
+            query: () => "/api/tours",
+        }),
         getTourById: builder.query<TourByIdResponse, string>({
             query: (id) => `/api/tours/${id}`,
         }),
@@ -38,4 +41,5 @@ export const {
     useGetMyToursQuery,
     useGetTourByIdQuery,
     useUploadBoardImageMutation,
+    useGetAllToursQuery
 } = tourApi;
