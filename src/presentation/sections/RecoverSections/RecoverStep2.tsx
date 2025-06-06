@@ -4,19 +4,17 @@ import {VerifyCodeDTO, VerifyCodeSchema} from "../../../infrastructure/schemas/r
 
 interface Props {
     onNext: () => void;
+    setCode: (code: string) => void;
 }
 
-export default function RecoverStep2({ onNext }: Props) {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<VerifyCodeDTO>({
+export default function RecoverStep2({ onNext, setCode }: Props) {
+    const { register, handleSubmit, formState: { errors } } = useForm<VerifyCodeDTO>({
         resolver: zodResolver(VerifyCodeSchema),
     });
 
     const onSubmit = (data: VerifyCodeDTO) => {
-        console.log("✅ Código ingresado:", data.code);
+        // Puedes agregar verificación extra si lo deseas
+        setCode(data.code);
         onNext();
     };
 

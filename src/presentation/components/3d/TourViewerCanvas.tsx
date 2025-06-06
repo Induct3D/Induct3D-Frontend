@@ -5,21 +5,27 @@ import FPSController from "../../components/3d/FPSController";
 import GuideCharacterWithSpeech from "../../components/3d/GuideCharacterWithSpeech";
 import { useGLTF } from "@react-three/drei";
 import { Box3, Vector3 as ThreeVector3, MeshStandardMaterial } from "three";
+import StepBoardHtml from "./StepBoardHtml";
 
 type LocalVector3 = { x: number; y: number; z: number };
 type Step = {
     stepId: string;
     messages: string[];
     boardMedia?: {
-        type: "image" | "video";
-        urls: string[];
+        html: string;
     } | null;
 };
 type PredefinedStep = {
     id: string;
     position: LocalVector3[];
-    hasBoard?: boolean;
+    hasBoard?: boolean | null;
+    boardConfig?: {
+        position: LocalVector3;
+        rotation?: LocalVector3;
+        scale?: number;
+    } | null;
 };
+
 
 type Props = {
     glbUrl: string;
@@ -47,12 +53,43 @@ function SceneModel({
         scene.position.z -= center.z;
         scene.position.y = 2.30;
 
-        // Aplica colores personalizados
         Object.entries(materialColors).forEach(([matName, colorHex]) => {
-            // Algunos materiales pueden no existir o no ser MeshStandardMaterial
             const mat = materials[matName];
             if (mat && (mat as MeshStandardMaterial).color) {
                 (mat as MeshStandardMaterial).color.set(colorHex);
+            }
+        });
+
+        // 🧪 EXTRA: Mostrar info de las pizarras
+        ["Cube", "Pizarra_step_4"].forEach((name) => {
+            const pizarra = scene.getObjectByName(name);
+            if (pizarra) {
+                const worldPos = new ThreeVector3();
+                pizarra.getWorldPosition(worldPos);
+
+                const rot = pizarra.rotation;
+                const box = new Box3().setFromObject(pizarra);
+                const size = new ThreeVector3();
+                box.getSize(size);
+
+                console.log(`🧱 ${name}`);
+                console.log("🔹 Position:", {
+                    x: parseFloat(worldPos.x.toFixed(2)),
+                    y: parseFloat(worldPos.y.toFixed(2)),
+                    z: parseFloat(worldPos.z.toFixed(2)),
+                });
+                console.log("🔹 Rotation (rad):", {
+                    x: parseFloat(rot.x.toFixed(2)),
+                    y: parseFloat(rot.y.toFixed(2)),
+                    z: parseFloat(rot.z.toFixed(2)),
+                });
+                console.log("🔹 Size (bounding box):", {
+                    width: parseFloat(size.x.toFixed(2)),
+                    height: parseFloat(size.y.toFixed(2)),
+                    depth: parseFloat(size.z.toFixed(2)),
+                });
+            } else {
+                console.warn(`⚠️ No se encontró ${name}`);
             }
         });
     }, [scene, materials, materialColors]);
@@ -99,6 +136,38 @@ export default function TourViewerCanvas({
                         </mesh>
                     </RigidBody>
                 </Physics>
+                {steps.map((step) => {
+                    if (!step.boardMedia) return null;
+
+                    const stepMeta = predefinedSteps.find((ps) => ps.id === step.stepId);
+                    if (!stepMeta || !stepMeta.hasBoard || !stepMeta.boardConfig) return null;
+
+                    const base = stepMeta.boardConfig.position;
+                    const rot = stepMeta.boardConfig.rotation ?? { x: 0, y: 0, z: 0 };
+                    const scale = stepMeta.boardConfig.scale ?? 1;
+
+// Desplazamiento de 0.5 m hacia adelante en base a la rotación Y
+                    const offsetZ = 0.02;
+                    const cosY = Math.cos(rot.y);
+                    const sinY = Math.sin(rot.y);
+
+                    const adjustedPos: [number, number, number] = [
+                        base.x + offsetZ * sinY,
+                        base.y,
+                        base.z + offsetZ * cosY
+                    ];
+
+                    return (
+                        <StepBoardHtml
+                            key={step.stepId}
+                            position={adjustedPos}
+                            rotation={[rot.x, rot.y, rot.z]}
+                            scale={scale}
+                            html={step.boardMedia.html}
+                        />
+                    );
+                })}
+
             </Canvas>
 
             {/* Subtítulo fijo abajo */}

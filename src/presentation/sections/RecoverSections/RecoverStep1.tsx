@@ -1,20 +1,34 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router";
-import {RecoverRequestDTO, RecoverRequestSchema} from "../../../infrastructure/schemas/recoverPasswordSchema.ts";
+import { RecoverRequestDTO, RecoverRequestSchema } from "../../../infrastructure/schemas/recoverPasswordSchema.ts";
+import { useRequestResetCodeMutation } from "../../../features/auth/authApi.ts";
 
 interface Props {
     onNext: () => void;
+    setEmail: (email: string) => void;
 }
 
-export default function RecoverStep1({ onNext }: Props) {
-    const { register, handleSubmit, formState: { errors } } = useForm<RecoverRequestDTO>({
+export default function RecoverStep1({ onNext, setEmail }: Props) {
+    const [requestResetCode, { isLoading }] = useRequestResetCodeMutation();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors }
+    } = useForm<RecoverRequestDTO>({
         resolver: zodResolver(RecoverRequestSchema),
     });
 
-    const onSubmit = (data: RecoverRequestDTO) => {
-        console.log("📨 Enviando código a:", data.email);
-        onNext();
+    const onSubmit = async (data: RecoverRequestDTO) => {
+        try {
+            await requestResetCode(data).unwrap();
+            setEmail(data.email);
+            onNext();
+        } catch (err) {
+            const error = err as { data?: { message?: string } };
+            alert(error.data?.message || "Error al enviar el código");
+        }
     };
 
     return (
@@ -35,8 +49,14 @@ export default function RecoverStep1({ onNext }: Props) {
                 {errors.email && <p className="text-sm text-red-600 mt-1">{errors.email.message}</p>}
             </div>
 
-            <button type="submit" className="w-full bg-[#A71C20] text-white py-2 rounded-lg font-semibold">
-                Enviar código
+            <button
+                type="submit"
+                disabled={isLoading}
+                className={`w-full py-2 rounded-lg font-semibold text-white transition ${
+                    isLoading ? "bg-[#A71C20]/50 cursor-not-allowed" : "bg-[#A71C20] hover:opacity-90"
+                }`}
+            >
+                {isLoading ? "Enviando..." : "Enviar código"}
             </button>
         </form>
     );

@@ -1,18 +1,40 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {ResetPasswordDTO, ResetPasswordSchema} from "../../../infrastructure/schemas/recoverPasswordSchema.ts";
-import {useNavigate} from "react-router";
+import { ResetPasswordDTO, ResetPasswordSchema } from "../../../infrastructure/schemas/recoverPasswordSchema.ts";
+import { useNavigate } from "react-router";
+import { useResetPasswordMutation } from "../../../features/auth/authApi.ts";
 
-export default function RecoverStep3() {
+interface Props {
+    email: string;
+    code: string;
+}
+
+export default function RecoverStep3({ email, code }: Props) {
     const navigate = useNavigate();
+    const [resetPassword] = useResetPasswordMutation();
 
-    const { register, handleSubmit, formState: { errors } } = useForm<ResetPasswordDTO>({
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<ResetPasswordDTO>({
         resolver: zodResolver(ResetPasswordSchema),
     });
 
-    const onSubmit = (data: ResetPasswordDTO) => {
-        console.log("🔐 Nueva contraseña guardada:", data.password);
-        navigate("/iniciar-sesion");
+    const onSubmit = async (data: ResetPasswordDTO) => {
+        try {
+            await resetPassword({
+                email,
+                code,
+                newPassword: data.newPassword,
+            }).unwrap();
+
+            alert("Contraseña actualizada correctamente");
+            navigate("/iniciar-sesion");
+        } catch (err) {
+            const error = err as { data?: { message?: string } };
+            alert(error.data?.message || "Error al actualizar contraseña");
+        }
     };
 
     return (
@@ -22,11 +44,13 @@ export default function RecoverStep3() {
             <div>
                 <input
                     type="password"
-                    {...register("password")}
+                    {...register("newPassword")}
                     placeholder="Nueva contraseña"
                     className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#A71C20]"
                 />
-                {errors.password && <p className="text-sm text-red-600 mt-1">{errors.password.message}</p>}
+                {errors.newPassword && (
+                    <p className="text-sm text-red-600 mt-1">{errors.newPassword.message}</p>
+                )}
             </div>
 
             <div>
