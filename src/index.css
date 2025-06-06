@@ -1,1 +1,45 @@
 @import "tailwindcss";
+
+@plugin "@tailwindcss/typography";
+
+/* 1) Reducir interlineado: usar leading-normal en lugar de leading-relaxed */
+.prose p {
+    @apply text-base leading-normal mb-2;
+}
+
+/* 2) Encabezados con menos “espacio extra” */
+.prose h1 {
+    @apply text-2xl mt-4 mb-2;
+}
+.prose h2 {
+    @apply text-xl mt-3 mb-2;
+}
+.prose h3 {
+    @apply text-lg mt-3 mb-1.5;
+}
+
+/* 3) Listas: menos espacio entre elementos */
+.prose ul,
+.prose ol {
+    @apply text-base pl-5 mb-2;
+}
+.prose li p {
+    @apply mb-1;
+}
+
+/* 4) Citas: menos espacio vertical */
+.prose blockquote {
+    @apply text-base italic border-l-2 pl-3 ml-0 mt-2 mb-2;
+}
+
+/* 5) Evitar que cada <p> nuevo (“enter”) deje mucha separación:
+      - ya reducimos mb-2; si quieres aún menos, prueba mb-1
+*/
+.prose p + p {
+    @apply mt-1 mb-1;
+}
+
+/* 6) Si quieres que <br> (Shift+Enter) apenas deje diferencia, usa: */
+.prose br {
+    line-height: 1;
+}

@@ -1,5 +1,5 @@
 import ModelViewerCanvas from "../../sections/Creator/ModelViewerCanvas.tsx";
-import CustomizationSidebar from "../../sections/Creator/CustomizationSidebar.tsx";
+import CustomizationSidebar from "../../components/CustomizationSidebar/CustomizationSidebar.tsx";
 import { useSearchParams } from "react-router";
 import {useGetTemplateByIdQuery} from "../../../features/auth/templateApi.ts";
 
@@ -27,6 +27,7 @@ export default function CreateTour() {
             <CustomizationSidebar
                 glbUrl={template.glbUrl}
                 predefinedSteps={template.predefinedSteps}
+                templateId={templateId}
             />
         </div>
     );
