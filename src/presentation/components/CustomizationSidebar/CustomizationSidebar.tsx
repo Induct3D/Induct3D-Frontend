@@ -16,6 +16,7 @@ import {
     ColorMap,
     BoardMedia,
 } from "./types";
+import SuccessModal from "../Modals/SuccessModal";
 
 interface CustomizationSidebarProps {
     glbUrl: string;
@@ -35,6 +36,8 @@ export default function CustomizationSidebar({
     const { materials: loadedMaterials } = useGLTF(glbUrl || " ");
     const [materials, setMaterials] = useState<MaterialMap>({});
     const [selectedColors, setSelectedColors] = useState<ColorMap>({});
+    const [showSuccess, setShowSuccess] = useState(false);
+
 
     useEffect(() => {
         const editableEntries = Object.entries(loadedMaterials).filter(
@@ -132,10 +135,6 @@ export default function CustomizationSidebar({
             steps: stepMessages,
         };
 
-        console.log(
-            "Payload a enviar al backend:",
-            JSON.stringify(payload, null, 2)
-        );
         const parsed = CreateTourSchema.safeParse(payload);
         if (!parsed.success) {
             console.error("Error de validación:", parsed.error.format());
@@ -144,13 +143,17 @@ export default function CustomizationSidebar({
 
         try {
             await createTour(parsed.data).unwrap();
-            alert("Recorrido guardado exitosamente");
-            navigate("/dashboard");
+            setShowSuccess(true);
+            setTimeout(() => {
+                setShowSuccess(false); // opcional, limpieza
+                navigate("/dashboard");
+            }, 2000);
         } catch (error) {
             console.error("Error al guardar el recorrido:", error);
             alert("Hubo un problema al guardar el recorrido");
         }
     };
+
 
     return (
         <aside className="w-[420px] border-l bg-white p-6 overflow-y-auto">
@@ -186,6 +189,13 @@ export default function CustomizationSidebar({
 
             {/* 4. Botón de guardar */}
             <SaveButtonSection onSave={handleSave} />
+
+            {showSuccess && (
+                <SuccessModal
+                    isOpen={showSuccess}
+                    message="Tu recorrido se guardó correctamente. Serás redirigido al dashboard."
+                />
+            )}
         </aside>
     );
 }

@@ -22,7 +22,25 @@ export const TemplateSchema = z.object({
                     z: z.number(),
                 })
             ),
-            hasBoard: z.boolean().optional(),
+            hasBoard: z.boolean().nullable().optional(), // puede ser null o undefined
+            boardConfig: z
+                .object({
+                    position: z.object({
+                        x: z.number(),
+                        y: z.number(),
+                        z: z.number(),
+                    }),
+                    rotation: z
+                        .object({
+                            x: z.number(),
+                            y: z.number(),
+                            z: z.number(),
+                        })
+                        .optional(),
+                    scale: z.number().optional(),
+                })
+                .nullable()
+                .optional(),
         })
     ),
 });
