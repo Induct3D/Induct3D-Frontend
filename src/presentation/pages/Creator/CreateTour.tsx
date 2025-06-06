@@ -14,6 +14,7 @@ export default function CreateTour() {
     if (error || !template)
         return <p className="text-red-600 p-4">Error al cargar plantilla.</p>;
 
+
     // Zod validó y tipó template, usa las props con los nombres correctos
     return (
         <div className="flex h-full">
