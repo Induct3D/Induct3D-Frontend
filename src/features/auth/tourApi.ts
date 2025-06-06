@@ -11,9 +11,11 @@ export const tourApi = induct3dApi.injectEndpoints({
                 method: "POST",
                 body: data,
             }),
+            invalidatesTags: ["Tours"],
         }),
         getMyTours: builder.query<Tour[], void>({
             query: () => "/api/tours/my",
+            providesTags: ["Tours"],
         }),
         getAllTours: builder.query<Tour[], void>({
             query: () => "/api/tours",
@@ -33,6 +35,14 @@ export const tourApi = induct3dApi.injectEndpoints({
             },
         }),
 
+        deleteTour: builder.mutation<void, string>({
+            query: (tourId) => ({
+                url: `/api/tours/${tourId}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["Tours"],
+        }),
+
     }),
 });
 
@@ -41,5 +51,6 @@ export const {
     useGetMyToursQuery,
     useGetTourByIdQuery,
     useUploadBoardImageMutation,
-    useGetAllToursQuery
+    useGetAllToursQuery,
+    useDeleteTourMutation
 } = tourApi;

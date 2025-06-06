@@ -3,11 +3,15 @@ import ProjectCard from "../../components/ProjectCard.tsx";
 import {useState} from "react";
 import {useNavigate} from "react-router";
 import SelectTemplateModal from "../../components/Modals/SelectTemplateModal.tsx";
-import { useGetMyToursQuery } from "../../../features/auth/tourApi.ts";
+import {useDeleteTourMutation, useGetMyToursQuery } from "../../../features/auth/tourApi.ts";
+import ConfirmDeleteModal from "../../components/Modals/ConfirmDeleteModal.tsx";
 
 export default function Dashboard() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
+
+    const [tourToDelete, setTourToDelete] = useState<{ id: string; title: string } | null>(null);
+    const [deleteTour] = useDeleteTourMutation();
 
     const { data: tours = [], isLoading } = useGetMyToursQuery();
 
@@ -15,6 +19,17 @@ export default function Dashboard() {
         if (templateId) {
             setIsModalOpen(false);
             navigate(`/dashboard/crear?template=${templateId}`);
+        }
+    };
+
+    const handleDelete = async () => {
+        if (!tourToDelete) return;
+        try {
+            await deleteTour(tourToDelete.id).unwrap();
+            setTourToDelete(null);
+        } catch (error) {
+            console.error("Error al eliminar el tour:", error);
+            alert("No se pudo eliminar el recorrido");
         }
     };
 
@@ -43,10 +58,17 @@ export default function Dashboard() {
                             title={tour.tourName || "Sin título"}
                             description={tour.description}
                             imageUrl="/img/OfficeTemplate/LateralOfficeTemplate.png"
+                            onDelete={() => setTourToDelete({ id: tour.tourId, title: tour.tourName })}
                         />
                     ))}
                 </div>
             )}
+            <ConfirmDeleteModal
+                isOpen={!!tourToDelete}
+                tourTitle={tourToDelete?.title || ""}
+                onCancel={() => setTourToDelete(null)}
+                onConfirm={handleDelete}
+            />
         </div>
     );
 }
