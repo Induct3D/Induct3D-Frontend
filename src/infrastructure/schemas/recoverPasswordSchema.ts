@@ -16,7 +16,7 @@ export const VerifyCodeSchema = z.object({
 // 3. Restablecer contraseña
 export const ResetPasswordSchema = z
     .object({
-        password: z
+        newPassword: z
             .string()
             .min(6, "Mínimo 6 caracteres")
             .regex(/[a-z]/, "Debe contener minúscula")
@@ -24,10 +24,19 @@ export const ResetPasswordSchema = z
             .regex(/[0-9]/, "Debe contener número"),
         confirmPassword: z.string(),
     })
-    .refine((data) => data.password === data.confirmPassword, {
+    .refine((data) => data.newPassword === data.confirmPassword, {
         path: ["confirmPassword"],
         message: "Las contraseñas no coinciden",
     });
+
+
+// Este es el que se usa SOLO en el mutation
+export type ResetPasswordPayload = {
+    email: string;
+    code: string;
+    newPassword: string;
+};
+
 
 export type RecoverRequestDTO = z.infer<typeof RecoverRequestSchema>;
 export type VerifyCodeDTO = z.infer<typeof VerifyCodeSchema>;
