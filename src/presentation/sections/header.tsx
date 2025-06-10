@@ -11,7 +11,7 @@ export default function Header() {
             {/* Logo */}
             <div className="flex items-center">
                 <Link to="/" className="text-2xl font-bold text-gray-800">
-                    Inducto3D
+                    Induct3D
                 </Link>
             </div>
 
