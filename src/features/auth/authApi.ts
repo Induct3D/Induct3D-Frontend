@@ -38,6 +38,12 @@ export const authApi = induct3dApi.injectEndpoints({
                 body: data,
             }),
         }),
+        validateResetCode: builder.query<MessageResponse, { email: string; code: string }>({
+            query: ({ email, code }) => ({
+                url: `/auth/validate-code/${email}/${code}`,
+                method: "GET",
+            }),
+        }),
     }),
 })
 
@@ -45,5 +51,6 @@ export const {
     useRegisterMutation,
     useLoginMutation,
     useRequestResetCodeMutation,
-    useResetPasswordMutation
+    useResetPasswordMutation,
+    useLazyValidateResetCodeQuery
 } = authApi;

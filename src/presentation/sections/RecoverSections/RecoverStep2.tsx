@@ -1,21 +1,30 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {VerifyCodeDTO, VerifyCodeSchema} from "../../../infrastructure/schemas/recoverPasswordSchema";
+import { VerifyCodeDTO, VerifyCodeSchema } from "../../../infrastructure/schemas/recoverPasswordSchema";
+import {useLazyValidateResetCodeQuery} from "../../../features/auth/authApi";
 
 interface Props {
     onNext: () => void;
     setCode: (code: string) => void;
+    email: string;
 }
 
-export default function RecoverStep2({ onNext, setCode }: Props) {
+export default function RecoverStep2({ onNext, setCode, email }: Props) {
     const { register, handleSubmit, formState: { errors } } = useForm<VerifyCodeDTO>({
         resolver: zodResolver(VerifyCodeSchema),
     });
 
-    const onSubmit = (data: VerifyCodeDTO) => {
-        // Puedes agregar verificación extra si lo deseas
-        setCode(data.code);
-        onNext();
+    const [triggerValidateCode, { isFetching, error }] = useLazyValidateResetCodeQuery();
+
+    const onSubmit = async (data: VerifyCodeDTO) => {
+        try {
+            const result = await triggerValidateCode({ email, code: data.code }).unwrap();
+            console.log(result)
+            setCode(data.code);
+            onNext();
+        } catch {
+            alert("Código inválido o expirado.");
+        }
     };
 
     return (
@@ -36,10 +45,13 @@ export default function RecoverStep2({ onNext, setCode }: Props) {
 
             <button
                 type="submit"
+                disabled={isFetching}
                 className="w-full bg-[#A71C20] text-white py-2 rounded-lg font-semibold"
             >
-                Verificar código
+                {isFetching ? "Verificando..." : "Verificar código"}
             </button>
+
+            {error && <p className="text-sm text-red-600 mt-2">Error al validar el código.</p>}
         </form>
     );
 }

@@ -21,6 +21,7 @@ export default function RecoverPassword() {
                     <RecoverStep2
                         onNext={() => setStep(3)}
                         setCode={setCode}
+                        email={email}
                     />
                 )}
                 {step === 3 && (
