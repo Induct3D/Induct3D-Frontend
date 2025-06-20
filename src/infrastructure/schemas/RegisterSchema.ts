@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const RegisterSchema = z
     .object({
-        username: z.string().min(6, "El nombre de usuario es obligatorio"),
+        username: z.string().min(6, "El nombre de usuario debe tener al menos 6 caracteres"),
         name: z.string().min(1, "El nombre es obligatorio"),
         surname: z.string().min(1, "El apellido es obligatorio"),
         email: z
