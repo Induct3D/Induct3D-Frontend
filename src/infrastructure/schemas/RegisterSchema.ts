@@ -1,10 +1,25 @@
 import { z } from "zod";
 
+// Solo letras, incluyendo tildes y ñ/Ñ
+const nombreRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$/;
+
+// Username: debe contener al menos una letra (puede tener números o símbolos)
+const usernameRegex = /^(?=.*[A-Za-z]).{6,}$/;
+
 export const RegisterSchema = z
     .object({
-        username: z.string().min(6, "El nombre de usuario debe tener al menos 6 caracteres"),
-        name: z.string().min(1, "El nombre es obligatorio"),
-        surname: z.string().min(1, "El apellido es obligatorio"),
+        username: z
+            .string()
+            .min(6, "El nombre de usuario debe tener al menos 6 caracteres")
+            .regex(usernameRegex, "El nombre de usuario debe contener al menos una letra"),
+        name: z
+            .string()
+            .min(1, "El nombre es obligatorio")
+            .regex(nombreRegex, "El nombre solo puede contener letras sin espacios ni caracteres especiales"),
+        surname: z
+            .string()
+            .min(1, "El apellido es obligatorio")
+            .regex(nombreRegex, "El apellido solo puede contener letras sin espacios ni caracteres especiales"),
         email: z
             .string()
             .min(1, "El correo es obligatorio")

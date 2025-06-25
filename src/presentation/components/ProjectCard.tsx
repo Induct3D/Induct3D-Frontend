@@ -1,5 +1,6 @@
 import { FiEye, FiTrash2 } from "react-icons/fi";
 import {Link} from "react-router";
+import { MdEdit } from "react-icons/md";
 
 type Props = {
     id: string;
@@ -25,6 +26,12 @@ export default function ProjectCard({ id, title, imageUrl, description, onDelete
                         className="text-sm text-green-600 hover:underline flex items-center gap-1"
                     >
                         <FiEye /> Ver
+                    </Link>
+                    <Link
+                        to={`/dashboard/editar/${id}`}
+                        className="text-sm text-blue-600 hover:underline flex items-center gap-1"
+                    >
+                        <MdEdit /> Editar
                     </Link>
                     <button
                         onClick={onDelete}
