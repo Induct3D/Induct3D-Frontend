@@ -11,6 +11,7 @@ import Dashboard from "../../presentation/pages/Creator/Dashboard.tsx"
 import PrivateRoute from "../../infrastructure/routes/PrivateRoute.tsx"
 import CreateTour from "../../presentation/pages/Creator/CreateTour.tsx";
 import ViewTour from "../../presentation/pages/ViewTour.tsx"
+import EditTour from "../../presentation/pages/Creator/EditTour.tsx"
 
 export const router = createBrowserRouter([
     {
@@ -32,7 +33,8 @@ export const router = createBrowserRouter([
                 element: <CreatorLayout />,
                 children: [
                     { index: true, element: <Dashboard /> },
-                    { path: "crear", element: <CreateTour /> }
+                    { path: "crear", element: <CreateTour /> },
+                    { path: "editar/:id", element: <EditTour /> }
                 ]
             }
         ]

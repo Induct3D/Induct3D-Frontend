@@ -43,6 +43,15 @@ export const tourApi = induct3dApi.injectEndpoints({
             invalidatesTags: ["Tours"],
         }),
 
+        updateTour: builder.mutation<void, { id: string; data: CreateTourDTO }>({
+            query: ({ id, data }) => ({
+                url: `/api/tours/${id}`,
+                method: "PUT",
+                body: data,
+            }),
+            invalidatesTags: ["Tours"],
+        }),
+
     }),
 });
 
@@ -52,5 +61,6 @@ export const {
     useGetTourByIdQuery,
     useUploadBoardImageMutation,
     useGetAllToursQuery,
-    useDeleteTourMutation
+    useDeleteTourMutation,
+    useUpdateTourMutation
 } = tourApi;

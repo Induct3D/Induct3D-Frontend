@@ -5,7 +5,9 @@ import TourViewerCanvas from "../components/3d/TourViewerCanvas.tsx";
 
 export default function ViewTour() {
     const { id } = useParams<{ id: string }>();
-    const { data: tour, error, isLoading } = useGetTourByIdQuery(id ?? "");
+    const { data: tour, isLoading, error } = useGetTourByIdQuery(id ?? "", {
+        refetchOnMountOrArgChange: true,
+    });
 
     if (isLoading) return <p>Cargando recorrido...</p>;
     if (error || !tour) return <p className="text-red-600 p-4">Error al cargar recorrido.</p>;
