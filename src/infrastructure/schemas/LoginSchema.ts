@@ -1,7 +1,13 @@
 import { z } from "zod"
 
+// Username: debe contener al menos una letra (puede tener números o símbolos)
+const usernameRegex = /^(?=.*[A-Za-z]).{6,}$/;
+
 export const LoginSchema = z.object({
-    username: z.string().min(6, "El nombre de usuario debe tener al menos 6 caracteres"),
+    username: z
+        .string()
+        .min(6, "El nombre de usuario debe tener al menos 6 caracteres")
+        .regex(usernameRegex, "El nombre de usuario debe contener al menos una letra"),
 
     password: z
         .string()
