@@ -8,7 +8,7 @@ export default function JoinNowSection() {
                     ¿Listo para crear tu primer recorrido 3D interactivo?
                 </h2>
                 <p className="text-lg md:text-xl max-w-2xl mx-auto mb-10">
-                    Diseña experiencias inmersivas con ambientes personalizables, personajes guía y actividades gamificadas. ¡Empieza en minutos!
+                    Diseña experiencias inmersivas con ambientes personalizables, contenido multimedia y narraciones automatizadas. ¡Empieza en minutos!
                 </p>
 
                 <div className="flex flex-col md:flex-row justify-center gap-4">

@@ -4,12 +4,12 @@ export default function HeroSection() {
     return (
         <section className="w-full bg-gray-50 min-h-[90vh] flex flex-col justify-center items-center text-center px-6">
             <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight max-w-4xl">
-                Crea recorridos 3D <span className="text-[#A71C20]">interactivos</span> <br />
+                Crea recorridos 3D <span className="text-[#A71C20]">personalizados</span><br />
                 sin saber programar
             </h1>
 
             <p className="mt-6 text-lg md:text-xl text-gray-600 max-w-2xl">
-                Diseña experiencias de inducción personalizadas en ambientes 3D, con personajes, juegos y narración automatizada.
+                Diseña experiencias de inducción inmersivas en ambientes 3D con editor de contenido, narraciones y personalización visual.
             </p>
 
             <div className="mt-8 flex gap-4">

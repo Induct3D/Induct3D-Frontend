@@ -1,6 +1,6 @@
-# 🎮 Inducto3D – Creador de Recorridos 3D Interactivos
+# 🎮 Induct3D – Creador de Recorridos 3D Interactivos
 
-**Inducto3D** es una aplicación web que permite a cualquier persona crear recorridos de inducción interactivos en entornos 3D personalizados, sin necesidad de saber programar. Ideal para onboarding empresarial, recorridos educativos o presentaciones inmersivas.
+**Induct3D** es una aplicación web que permite a cualquier persona crear recorridos de inducción interactivos en entornos 3D personalizados, sin necesidad de saber programar. Ideal para onboarding empresarial, recorridos educativos o presentaciones inmersivas.
 
 ---
 
@@ -48,7 +48,7 @@ src/
 ```githubexpressionlanguage
 # 1. Clonar el repositorio
 git clone https://github.com/Induct3D/Induct3D-Frontend.git
-cd inducto3d
+cd induct3d
 
 # 2. Instalar dependencias
 npm install

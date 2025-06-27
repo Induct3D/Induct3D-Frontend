@@ -23,9 +23,9 @@ export default function HowItWorksSection() {
                         <div className="w-16 h-16 mb-4 bg-[#A71C20] text-white flex items-center justify-center rounded-full text-2xl font-bold shadow-md">
                             2
                         </div>
-                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Personaliza tu experiencia</h3>
+                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Agrega contenido y personaliza</h3>
                         <p className="text-gray-600">
-                            Cambia colores, texturas, elige un personaje guía y agrega actividades gamificadas como trivias o acertijos.
+                            Usa el editor para insertar textos, imágenes o videos en los puntos clave del recorrido. Ajusta colores de paredes, pisos y más.
                         </p>
                     </div>
 
@@ -34,9 +34,9 @@ export default function HowItWorksSection() {
                         <div className="w-16 h-16 mb-4 bg-[#A71C20] text-white flex items-center justify-center rounded-full text-2xl font-bold shadow-md">
                             3
                         </div>
-                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Publica y comparte</h3>
+                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Guarda y presenta</h3>
                         <p className="text-gray-600">
-                            Guarda tu recorrido, publícalo de forma libre o protégelo con contraseña. Comparte el enlace fácilmente.
+                            Publica tu recorrido en modo presentación para compartirlo con nuevos colaboradores, estudiantes o visitantes.
                         </p>
                     </div>
                 </div>

@@ -10,7 +10,7 @@ export default function WhatIsSection() {
 
                     <p className="text-lg text-gray-700 leading-relaxed max-w-xl">
                         <strong>Induct3D</strong> es una aplicación web para diseñar recorridos de inducción en ambientes 3D de forma simple, atractiva y sin código.
-                        Personaliza escenarios, elige un personaje guía y agrega juegos interactivos para que tu proceso de inducción sea inolvidable.
+                        Personaliza escenarios, edita contenidos informativos, ajusta los colores del entorno y deja que un personaje guía narre tu recorrido.
                     </p>
                 </div>
 

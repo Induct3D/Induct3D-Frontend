@@ -7,13 +7,6 @@ export default function Footer() {
                     Induct<span className="text-[#A71C20]">3D</span>
                 </div>
 
-                {/* Enlaces */}
-                <div className="flex flex-col md:flex-row gap-4 text-sm">
-                    <a href="/about" className="hover:text-white transition">Acerca de</a>
-                    <a href="/terms" className="hover:text-white transition">Términos</a>
-                    <a href="/contact" className="hover:text-white transition">Contacto</a>
-                </div>
-
                 {/* Información final */}
                 <div className="text-xs text-gray-400 text-center md:text-right">
                     © {new Date().getFullYear()} Induct3D. Todos los derechos reservados.
