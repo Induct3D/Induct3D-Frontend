@@ -14,6 +14,6 @@ export const induct3dApi = createApi({
             return headers
         }
     }),
-    tagTypes: ["Tours"], // Puedes agregar luego: ['User', 'Tour', etc.]
-    endpoints: () => ({}) // Se inyectan después
+    tagTypes: ["Tours"],
+    endpoints: () => ({})
 })
