@@ -1,12 +1,12 @@
-import {induct3dApi} from "../../infrastructure/api/induct3dApi.ts";
-import {RegisterDTO} from "../../infrastructure/schemas/RegisterSchema.ts";
-import {MessageResponse} from "../../infrastructure/schemas/messageResponseSchema.ts";
-import {LoginResponse} from "../../infrastructure/schemas/LoginResponseSchema.ts";
-import {LoginDTO} from "../../infrastructure/schemas/LoginSchema.ts";
+import {induct3dApi} from "./induct3dApi.ts";
+import {RegisterDTO} from "../schemas/RegisterSchema.ts";
+import {MessageResponse} from "../schemas/MessageResponseSchema.ts";
+import {LoginResponse} from "../schemas/LoginResponseSchema.ts";
+import {LoginDTO} from "../schemas/LoginSchema.ts";
 import {
     RecoverRequestDTO,
     ResetPasswordPayload
-} from "../../infrastructure/schemas/recoverPasswordSchema.ts";
+} from "../schemas/RecoverPasswordSchema.ts";
 
 export const authApi = induct3dApi.injectEndpoints({
     endpoints: (builder) => ({

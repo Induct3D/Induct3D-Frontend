@@ -9,7 +9,7 @@ import Image from "@tiptap/extension-image";
 import Youtube from "@tiptap/extension-youtube";
 import InsertImageModal from "./Modals/InsertImageModal";
 import InsertYoutubeModal from "./Modals/InsertYoutubeModal.tsx";
-import {useUploadBoardImageMutation} from "../../features/auth/tourApi.ts";
+import {useUploadBoardImageMutation} from "../../infrastructure/api/tourApi.ts";
 
 interface EditorAvanzadoProps {
     initialHTML?: string;

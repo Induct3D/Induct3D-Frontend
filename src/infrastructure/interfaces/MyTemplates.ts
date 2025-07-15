@@ -1,4 +1,4 @@
-export interface TemplateResponse {
+export interface MyTemplates {
     id: string;
     name: string;
     description: string;

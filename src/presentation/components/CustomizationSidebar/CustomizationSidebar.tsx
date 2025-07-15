@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
 import { CreateTourSchema } from "../../../infrastructure/schemas/CreateTourSchema";
-import { useCreateTourMutation } from "../../../features/auth/tourApi";
+import { useCreateTourMutation } from "../../../infrastructure/api/tourApi.ts";
 import { useNavigate } from "react-router";
 import TourInfoSection from "./TourInfoSection";
 import MaterialColorsSection from "./MaterialColorsSection";
@@ -15,7 +15,7 @@ import {
     MaterialMap,
     ColorMap,
     BoardMedia,
-} from "./types";
+} from "../../../infrastructure/interfaces/CustomizationSidebarTypes.ts";
 import SuccessModal from "../Modals/SuccessModal";
 
 interface CustomizationSidebarProps {

@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterDTO, RegisterSchema } from "../../infrastructure/schemas/RegisterSchema";
 import { Link, useNavigate} from "react-router";
-import {useRegisterMutation} from "../../features/auth/authApi.ts";
+import {useRegisterMutation} from "../../infrastructure/api/authApi.ts";
 import {useEffect} from "react";
 import {getErrorMessage} from "../../infrastructure/utils/getErrorMessage.ts";
 

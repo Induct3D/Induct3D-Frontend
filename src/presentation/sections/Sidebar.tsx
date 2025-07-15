@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { FiHome, FiPlusSquare,  FiLogOut, FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import Logo from "/LogoInduct3D.png"
+import Logo from "/img/LogoInduct3D.png"
 
 const navItems = [
     { path: "/dashboard", label: "Inicio", icon: <FiHome /> },

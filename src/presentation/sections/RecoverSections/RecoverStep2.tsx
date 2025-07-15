@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { VerifyCodeDTO, VerifyCodeSchema } from "../../../infrastructure/schemas/recoverPasswordSchema";
-import {useLazyValidateResetCodeQuery} from "../../../features/auth/authApi";
+import { VerifyCodeDTO, VerifyCodeSchema } from "../../../infrastructure/schemas/RecoverPasswordSchema.ts";
+import {useLazyValidateResetCodeQuery} from "../../../infrastructure/api/authApi.ts";
 
 interface Props {
     onNext: () => void;

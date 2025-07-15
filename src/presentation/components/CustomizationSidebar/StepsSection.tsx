@@ -1,5 +1,5 @@
 // src/presentation/components/CustomizationSidebar/StepsSection.tsx
-import { StepMessage, StringMapSetter } from "./types";
+import { StepMessage, StringMapSetter } from "../../../infrastructure/interfaces/CustomizationSidebarTypes.ts";
 import StepMessagesSection from "./StepMessagesSection";
 import EditorAvanzado from "../EditorAvanzado";
 

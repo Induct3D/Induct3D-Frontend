@@ -1,7 +1,7 @@
 import ModelViewerCanvas from "../../sections/Creator/ModelViewerCanvas.tsx";
 import CustomizationSidebar from "../../components/CustomizationSidebar/CustomizationSidebar.tsx";
 import { useSearchParams } from "react-router";
-import {useGetTemplateByIdQuery} from "../../../features/auth/templateApi.ts";
+import {useGetTemplateByIdQuery} from "../../../infrastructure/api/templateApi.ts";
 
 
 export default function CreateTour() {

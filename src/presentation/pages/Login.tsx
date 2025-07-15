@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import {Link, useNavigate } from "react-router"
 import {LoginDTO, LoginSchema} from "../../infrastructure/schemas/LoginSchema.ts";
-import { useLoginMutation } from "../../features/auth/authApi.ts";
+import { useLoginMutation } from "../../infrastructure/api/authApi.ts";
 import {getErrorMessage} from "../../infrastructure/utils/getErrorMessage.ts";
 
 export default function Login() {

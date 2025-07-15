@@ -1,7 +1,7 @@
 import { z } from "zod"
 
 export const MessageResponseSchema = z.object({
-    status: z.string(),  // podrías refinarlo a: z.enum(["OK", "ERROR"]) si quieres
+    status: z.string(),
     message: z.string()
 })
 

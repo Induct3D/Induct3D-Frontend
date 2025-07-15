@@ -1,4 +1,4 @@
-import { useGetAllToursQuery } from "../../features/auth/tourApi";
+import { useGetAllToursQuery } from "../../infrastructure/api/tourApi.ts";
 import ToursCard from "../components/ToursCard";
 
 export default function Tours() {
@@ -22,7 +22,7 @@ export default function Tours() {
                             id={tour.tourId}
                             title={tour.tourName}
                             description={tour.description}
-                            imageUrl="/img/OfficeTemplate/TopOfficeTemplate.png" // o una propiedad futura
+                            imageUrl="/img/TopOfficeTemplate.png" // o una propiedad futura
                         />
                     ))}
                 </div>

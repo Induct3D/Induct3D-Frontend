@@ -1,10 +1,10 @@
-import { induct3dApi } from "../../infrastructure/api/induct3dApi";
-import { TemplateResponse } from "../../infrastructure/schemas/TemplateResponse";
-import {TemplateDTO, TemplateSchema} from "../../infrastructure/schemas/TemplateSchema";
+import { induct3dApi } from "./induct3dApi.ts";
+import {MyTemplates} from "../interfaces/MyTemplates.ts";
+import {TemplateDTO, TemplateSchema} from "../schemas/TemplateSchema.ts";
 
 export const templateApi = induct3dApi.injectEndpoints({
     endpoints: (builder) => ({
-        getMyTemplates: builder.query<TemplateResponse[], void>({
+        getMyTemplates: builder.query<MyTemplates[], void>({
             query: () => ({
                 url: "/api/templates",
                 method: "GET",

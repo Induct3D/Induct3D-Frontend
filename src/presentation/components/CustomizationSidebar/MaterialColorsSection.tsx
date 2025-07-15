@@ -1,5 +1,5 @@
 // src/presentation/components/CustomizationSidebar/MaterialColorsSection.tsx
-import { MaterialMap, ColorMap, ColorMapSetter } from "./types";
+import { MaterialMap, ColorMap, ColorMapSetter } from "../../../infrastructure/interfaces/CustomizationSidebarTypes.ts";
 
 interface Props {
     materials: MaterialMap;

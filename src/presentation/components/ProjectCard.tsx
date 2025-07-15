@@ -13,7 +13,7 @@ type Props = {
 export default function ProjectCard({ id, title, imageUrl, description, onDelete }: Props) {
     return (
         <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
-            <img src={imageUrl} alt={title} className="w-full h-40 object-cover" />
+            <img src={imageUrl} alt={title} className="w-full h-55 object-cover" />
             <div className="p-4 flex flex-col flex-1 justify-between">
                 <div>
                     <h3 className="text-lg font-bold text-gray-800">{title}</h3>

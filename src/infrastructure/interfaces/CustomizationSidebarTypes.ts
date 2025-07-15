@@ -1,4 +1,4 @@
-// src/presentation/components/CustomizationSidebar/types.ts
+// src/presentation/components/CustomizationSidebar/CustomizationSidebarTypes.ts
 import { MeshStandardMaterial } from "three";
 import { Dispatch, SetStateAction } from "react";
 

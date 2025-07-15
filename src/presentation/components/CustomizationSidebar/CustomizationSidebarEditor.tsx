@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
-import { useUpdateTourMutation } from "../../../features/auth/tourApi"; // 👈 usar update
+import { useUpdateTourMutation } from "../../../infrastructure/api/tourApi.ts"; // 👈 usar update
 import { useNavigate } from "react-router";
 import TourInfoSection from "./TourInfoSection";
 import MaterialColorsSection from "./MaterialColorsSection";
@@ -14,7 +14,7 @@ import {
     MaterialMap,
     ColorMap,
     BoardMedia,
-} from "./types";
+} from "../../../infrastructure/interfaces/CustomizationSidebarTypes.ts";
 
 interface Props {
     glbUrl: string;

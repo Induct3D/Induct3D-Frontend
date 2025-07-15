@@ -3,7 +3,7 @@ import ProjectCard from "../../components/ProjectCard.tsx";
 import {useState} from "react";
 import {useNavigate} from "react-router";
 import SelectTemplateModal from "../../components/Modals/SelectTemplateModal.tsx";
-import {useDeleteTourMutation, useGetMyToursQuery } from "../../../features/auth/tourApi.ts";
+import {useDeleteTourMutation, useGetMyToursQuery } from "../../../infrastructure/api/tourApi.ts";
 import ConfirmDeleteModal from "../../components/Modals/ConfirmDeleteModal.tsx";
 
 export default function Dashboard() {
@@ -58,7 +58,7 @@ export default function Dashboard() {
                             id={tour.tourId}
                             title={tour.tourName || "Sin título"}
                             description={tour.description}
-                            imageUrl="/img/OfficeTemplate/LateralOfficeTemplate.png"
+                            imageUrl="/img/LateralOfficeTemplate.png"
                             onDelete={() => setTourToDelete({ id: tour.tourId, title: tour.tourName })}
                         />
                     ))}

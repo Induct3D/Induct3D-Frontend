@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ResetPasswordDTO, ResetPasswordSchema } from "../../../infrastructure/schemas/recoverPasswordSchema.ts";
+import { ResetPasswordDTO, ResetPasswordSchema } from "../../../infrastructure/schemas/RecoverPasswordSchema.ts";
 import { useNavigate } from "react-router";
-import { useResetPasswordMutation } from "../../../features/auth/authApi.ts";
+import { useResetPasswordMutation } from "../../../infrastructure/api/authApi.ts";
 
 interface Props {
     email: string;

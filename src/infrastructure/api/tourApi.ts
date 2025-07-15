@@ -1,7 +1,7 @@
-import { induct3dApi } from "../../infrastructure/api/induct3dApi";
-import {CreateTourDTO} from "../../infrastructure/schemas/CreateTourSchema.ts";
-import {Tour} from "../../infrastructure/schemas/TourSchema.ts";
-import {TourByIdResponse} from "../../infrastructure/schemas/TourByIdSchema.ts";
+import { induct3dApi } from "./induct3dApi.ts";
+import {CreateTourDTO} from "../schemas/CreateTourSchema.ts";
+import {Tour} from "../schemas/TourSchema.ts";
+import {TourByIdResponse} from "../schemas/TourByIdSchema.ts";
 
 export const tourApi = induct3dApi.injectEndpoints({
     endpoints: (builder) => ({

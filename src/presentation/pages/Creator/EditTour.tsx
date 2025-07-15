@@ -1,4 +1,4 @@
-import { useGetTourByIdQuery } from "../../../features/auth/tourApi";
+import { useGetTourByIdQuery } from "../../../infrastructure/api/tourApi.ts";
 import ModelViewerCanvas from "../../sections/Creator/ModelViewerCanvas";
 import {useParams} from "react-router";
 import CustomizationSidebarEditor from "../../components/CustomizationSidebar/CustomizationSidebarEditor.tsx";

@@ -1,6 +1,6 @@
 // src/presentation/components/CustomizationSidebar/StepMessagesSection.tsx
 import { FaPlay, FaTrash } from "react-icons/fa";
-import { StepMessage, StringMapSetter } from "./types";
+import { StepMessage, StringMapSetter } from "../../../infrastructure/interfaces/CustomizationSidebarTypes.ts";
 
 interface Props {
     step: StepMessage;

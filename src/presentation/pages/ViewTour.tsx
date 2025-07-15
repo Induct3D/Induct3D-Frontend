@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { useGetTourByIdQuery } from "../../features/auth/tourApi";
+import { useGetTourByIdQuery } from "../../infrastructure/api/tourApi.ts";
 import TourViewerCanvas from "../components/3d/TourViewerCanvas.tsx";
 import { useState } from "react";
 

@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router";
-import { RecoverRequestDTO, RecoverRequestSchema } from "../../../infrastructure/schemas/recoverPasswordSchema.ts";
-import { useRequestResetCodeMutation } from "../../../features/auth/authApi.ts";
+import { RecoverRequestDTO, RecoverRequestSchema } from "../../../infrastructure/schemas/RecoverPasswordSchema.ts";
+import { useRequestResetCodeMutation } from "../../../infrastructure/api/authApi.ts";
 
 interface Props {
     onNext: () => void;

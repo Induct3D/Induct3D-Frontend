@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { useDispatch } from "react-redux";
-import { useGetMyTemplatesQuery } from "../../../features/auth/templateApi";
+import { useGetMyTemplatesQuery } from "../../../infrastructure/api/templateApi.ts";
 import {useNavigate} from "react-router";
 import {setSelectedTemplate} from "../../../infrastructure/slices/selectedTemplateSlice.ts";
 
