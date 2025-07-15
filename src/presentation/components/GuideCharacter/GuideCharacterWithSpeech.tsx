@@ -2,10 +2,7 @@ import { useAnimations, useGLTF } from "@react-three/drei";
 import { useEffect, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
-
-type Vector3 = { x: number; y: number; z: number };
-type PredefinedStep = { id: string; position: Vector3[] };
-type Step = { stepId: string; messages: string[] };
+import {PredefinedStep, Step} from "../../../infrastructure/interfaces/GuideCharacterTypes.ts";
 
 export default function GuideCharacterWithSpeech({
                                                      predefinedSteps,

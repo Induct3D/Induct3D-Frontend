@@ -7,9 +7,9 @@ import TextAlign from "@tiptap/extension-text-align";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
 import Youtube from "@tiptap/extension-youtube";
-import InsertImageModal from "./Modals/InsertImageModal";
-import InsertYoutubeModal from "./Modals/InsertYoutubeModal.tsx";
-import {useUploadBoardImageMutation} from "../../infrastructure/api/tourApi.ts";
+import InsertImageModal from "../Modals/InsertImageModal.tsx";
+import InsertYoutubeModal from "../Modals/InsertYoutubeModal.tsx";
+import {useUploadBoardImageMutation} from "../../../infrastructure/api/tourApi.ts";
 
 interface EditorAvanzadoProps {
     initialHTML?: string;
@@ -76,12 +76,6 @@ export default function EditorAvanzado({
     if (!editor) {
         return <div className="text-gray-500">Cargando editor…</div>;
     }
-
-    const handleGuardar = () => {
-        const html = editor.getHTML();
-        console.log("Contenido TipTap como HTML:", html);
-        if (onUpdateContent) onUpdateContent(html);
-    };
 
     const handleImageInsert = (url: string) => {
         editor.chain().focus().setImage({ src: url }).run();
@@ -281,13 +275,6 @@ export default function EditorAvanzado({
                     📺 YouTube
                 </button>
 
-                <button
-                    onClick={handleGuardar}
-                    className="ml-auto px-3 py-1 rounded bg-[#A71C20] text-white hover:bg-[#93201f]"
-                    title="Guardar contenido como HTML"
-                >
-                    Guardar
-                </button>
             </div>
 
             <EditorContent

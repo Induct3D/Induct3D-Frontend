@@ -1,7 +1,7 @@
 import { useGetTourByIdQuery } from "../../../infrastructure/api/tourApi.ts";
 import ModelViewerCanvas from "../../sections/Creator/ModelViewerCanvas";
 import {useParams} from "react-router";
-import CustomizationSidebarEditor from "../../components/CustomizationSidebar/CustomizationSidebarEditor.tsx";
+import CustomizationSidebarEditor from "../../sections/CustomizationSidebar/CustomizationSidebarEditor.tsx";
 
 export default function EditTour() {
     const { id } = useParams<{ id: string }>();

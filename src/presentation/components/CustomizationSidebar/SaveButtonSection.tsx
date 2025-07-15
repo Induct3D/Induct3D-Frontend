@@ -1,10 +1,6 @@
 // src/presentation/components/CustomizationSidebar/SaveButtonSection.tsx
 
-interface Props {
-    onSave: () => void;
-}
-
-export default function SaveButtonSection({ onSave }: Props) {
+export default function SaveButtonSection({ onSave }: { onSave: () => void; }) {
     return (
         <button
             onClick={onSave}

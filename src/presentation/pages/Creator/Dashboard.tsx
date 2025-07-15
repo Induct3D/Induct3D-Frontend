@@ -1,5 +1,5 @@
-import CreateProjectCard from "../../components/CreateProjectCard";
-import ProjectCard from "../../components/ProjectCard.tsx";
+import CreateProjectCard from "../../components/Cards/CreateProjectCard.tsx";
+import ProjectCard from "../../components/Cards/ProjectCard.tsx";
 import {useState} from "react";
 import {useNavigate} from "react-router";
 import SelectTemplateModal from "../../components/Modals/SelectTemplateModal.tsx";

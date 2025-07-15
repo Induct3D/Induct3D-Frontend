@@ -1,11 +1,5 @@
 import { Html } from "@react-three/drei";
-
-interface StepBoardHtmlProps {
-    position: [number, number, number];
-    rotation?: [number, number, number];
-    scale?: number;
-    html: string;
-}
+import { StepBoardHtmlProps } from "../../../infrastructure/interfaces/StepBoardHtmlType";
 
 export default function StepBoardHtml({
                                           position,

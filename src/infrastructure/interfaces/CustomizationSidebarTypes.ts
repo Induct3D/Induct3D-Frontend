@@ -23,6 +23,23 @@ export interface PredefinedStep {
     } | null;
 }
 
+export interface CustomizationSidebarProps {
+    glbUrl: string;
+    predefinedSteps: PredefinedStep[];
+    templateId: string;
+}
+
+export interface EditorProps {
+    glbUrl: string;
+    predefinedSteps: PredefinedStep[];
+    templateId: string;
+    tourId: string;
+    initialName: string;
+    initialDescription: string;
+    initialColors: ColorMap;
+    initialSteps: StepMessage[];
+}
+
 export type MaterialMap = Record<string, MeshStandardMaterial>;
 export type ColorMap = Record<string, string>;
 export type ColorMapSetter = Dispatch<SetStateAction<ColorMap>>;

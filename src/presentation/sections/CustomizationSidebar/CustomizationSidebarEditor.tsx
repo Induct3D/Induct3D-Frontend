@@ -1,31 +1,20 @@
 import { useEffect, useState } from "react";
 import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
-import { useUpdateTourMutation } from "../../../infrastructure/api/tourApi.ts"; // 👈 usar update
+import { useUpdateTourMutation } from "../../../infrastructure/api/tourApi.ts";
 import { useNavigate } from "react-router";
-import TourInfoSection from "./TourInfoSection";
-import MaterialColorsSection from "./MaterialColorsSection";
-import StepsSection from "./StepsSection";
-import SaveButtonSection from "./SaveButtonSection";
-import SuccessModal from "../Modals/SuccessModal";
+import TourInfoSection from "../../components/CustomizationSidebar/TourInfoSection.tsx";
+import MaterialColorsSection from "../../components/CustomizationSidebar/MaterialColorsSection.tsx";
+import StepsSection from "../../components/CustomizationSidebar/StepsSection.tsx";
+import SaveButtonSection from "../../components/CustomizationSidebar/SaveButtonSection.tsx";
+import SuccessModal from "../../components/Modals/SuccessModal.tsx";
 import {
-    PredefinedStep,
     StepMessage,
     MaterialMap,
     ColorMap,
     BoardMedia,
+    EditorProps,
 } from "../../../infrastructure/interfaces/CustomizationSidebarTypes.ts";
-
-interface Props {
-    glbUrl: string;
-    predefinedSteps: PredefinedStep[];
-    templateId: string;
-    tourId: string;
-    initialName: string;
-    initialDescription: string;
-    initialColors: ColorMap;
-    initialSteps: StepMessage[];
-}
 
 export default function CustomizationSidebarEditor({
                                                        glbUrl,
@@ -35,7 +24,7 @@ export default function CustomizationSidebarEditor({
                                                        initialDescription,
                                                        initialColors,
                                                        initialSteps,
-                                                   }: Props) {
+                                                   }: EditorProps) {
     const navigate = useNavigate();
     const [updateTour] = useUpdateTourMutation();
 

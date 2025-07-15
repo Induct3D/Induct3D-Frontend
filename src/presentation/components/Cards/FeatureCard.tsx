@@ -1,4 +1,4 @@
-import {FeatureItem} from "../../infrastructure/constants/features.ts";
+import {FeatureItem} from "../../../infrastructure/constants/features.ts";
 
 interface FeatureCardProps {
     feature: FeatureItem;

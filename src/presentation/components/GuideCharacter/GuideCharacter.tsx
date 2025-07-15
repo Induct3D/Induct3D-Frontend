@@ -2,13 +2,9 @@ import { useAnimations, useGLTF } from "@react-three/drei";
 import { useEffect, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
+import {GuideCharacterStep} from "../../../infrastructure/interfaces/GuideCharacterTypes.ts";
 
-type Step = {
-    id: string;
-    position: { x: number; y: number; z: number }[];
-};
-
-export default function GuideCharacter({ steps }: { steps: Step[] }) {
+export default function GuideCharacter({ steps }: { steps: GuideCharacterStep[] }) {
     const { scene, animations } = useGLTF("/Men.glb");
     const { actions } = useAnimations(animations, scene);
     const { camera, gl } = useThree();

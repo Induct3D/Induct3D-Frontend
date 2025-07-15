@@ -1,5 +1,5 @@
 import {FEATURES} from "../../../infrastructure/constants/features.ts";
-import FeatureCard from "../../components/FeatureCard.tsx";
+import FeatureCard from "../../components/Cards/FeatureCard.tsx";
 
 
 const FeaturesSection = () => {

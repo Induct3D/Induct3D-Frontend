@@ -1,5 +1,5 @@
 import ModelViewerCanvas from "../../sections/Creator/ModelViewerCanvas.tsx";
-import CustomizationSidebar from "../../components/CustomizationSidebar/CustomizationSidebar.tsx";
+import CustomizationSidebar from "../../sections/CustomizationSidebar/CustomizationSidebar.tsx";
 import { useSearchParams } from "react-router";
 import {useGetTemplateByIdQuery} from "../../../infrastructure/api/templateApi.ts";
 

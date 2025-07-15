@@ -1,5 +1,5 @@
 import { useGetAllToursQuery } from "../../infrastructure/api/tourApi.ts";
-import ToursCard from "../components/ToursCard";
+import ToursCard from "../components/Cards/ToursCard.tsx";
 
 export default function Tours() {
     const { data: tours, isLoading, isError } = useGetAllToursQuery();

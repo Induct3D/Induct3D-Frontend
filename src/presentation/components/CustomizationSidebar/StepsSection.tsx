@@ -1,7 +1,7 @@
 // src/presentation/components/CustomizationSidebar/StepsSection.tsx
 import { StepMessage, StringMapSetter } from "../../../infrastructure/interfaces/CustomizationSidebarTypes.ts";
 import StepMessagesSection from "./StepMessagesSection";
-import EditorAvanzado from "../EditorAvanzado";
+import EditorAvanzado from "./EditorAvanzado.tsx";
 
 interface Props {
     stepMessages: StepMessage[];

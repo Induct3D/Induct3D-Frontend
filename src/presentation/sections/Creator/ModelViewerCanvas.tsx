@@ -3,8 +3,8 @@ import * as THREE from "three";
 import {Canvas} from "@react-three/fiber";
 import {Suspense, useEffect} from "react";
 import {Physics, RigidBody} from "@react-three/rapier";
-import FPSController from "../../components/3d/FPSController.tsx";
-import GuideCharacter from "../../components/3d/GuideCharacter.tsx";
+import FPSController from "../../components/Camera/FPSController.tsx";
+import GuideCharacter from "../../components/GuideCharacter/GuideCharacter.tsx";
 import { useStore } from "../../../infrastructure/store/positionStore.ts";
 
 function SceneModel({ glbUrl }: { glbUrl: string }) {
