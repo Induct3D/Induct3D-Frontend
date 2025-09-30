@@ -27,7 +27,7 @@ export default function Login() {
         if (isSuccess && data?.token) {
             localStorage.setItem("token", data.token)
             console.log("Login exitoso. Token guardado.")
-            navigate("/dashboard")
+            navigate("/dashboard", { replace: true });
         }
     }, [isSuccess, data, navigate])
 

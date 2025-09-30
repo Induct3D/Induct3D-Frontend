@@ -9,6 +9,7 @@ import RecoverPassword from "../../presentation/pages/RecoverPassword.tsx"
 import CreatorLayout from "../../presentation/layout/CreatorLayout.tsx"
 import Dashboard from "../../presentation/pages/Creator/Dashboard.tsx"
 import PrivateRoute from "../../infrastructure/routes/PrivateRoute.tsx"
+import PublicRoute from "../../infrastructure/routes/PublicRoute.tsx"
 import CreateTour from "../../presentation/pages/Creator/CreateTour.tsx";
 import ViewTour from "../../presentation/pages/ViewTour.tsx"
 import EditTour from "../../presentation/pages/Creator/EditTour.tsx"
@@ -40,10 +41,15 @@ export const router = createBrowserRouter([
         ]
     },
 
-    // Públicas
-    { path: "iniciar-sesion", element: <Login /> },
-    { path: "registrarse", element: <Register /> },
-    { path: "recuperar-contrasena", element: <RecoverPassword /> },
+    // Públicas (SOLO accesibles si NO hay token)
+  {
+    element: <PublicRoute />,
+    children: [
+      { path: "iniciar-sesion", element: <Login /> },
+      { path: "registrarse", element: <Register /> },
+      { path: "recuperar-contrasena", element: <RecoverPassword /> },
+    ],
+  },
 
     { path: "/recorrido/:id", element: <ViewTour /> },
 
