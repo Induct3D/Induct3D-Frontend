@@ -58,6 +58,5 @@ export const router = createBrowserRouter([
   },
 
     { path: "/recorrido/:id", element: <ViewTour /> },
-
     { path: "/*", element: <Error404 /> }
 ])
