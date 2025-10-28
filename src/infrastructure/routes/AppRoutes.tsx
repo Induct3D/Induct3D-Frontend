@@ -13,6 +13,9 @@ import PublicRoute from "../../infrastructure/routes/PublicRoute.tsx"
 import CreateTour from "../../presentation/pages/Creator/CreateTour.tsx";
 import ViewTour from "../../presentation/pages/ViewTour.tsx"
 import EditTour from "../../presentation/pages/Creator/EditTour.tsx"
+import Terms from "../../presentation/pages/Terms.tsx";
+import Consent from "../../presentation/pages/Consent.tsx";
+import Privacy from "../../presentation/pages/Privacy.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -20,7 +23,10 @@ export const router = createBrowserRouter([
         element: <Layout />,
         children: [
             { index: true, element: <Home /> },
-            { path: "recorridos", element: <Tours /> }
+            { path: "recorridos", element: <Tours /> },
+            { path: "terms", element: <Terms/> },
+            { path: "privacy", element: <Privacy/> },
+            { path: "consent", element: <Consent/> },
         ]
     },
 

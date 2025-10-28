@@ -31,10 +31,26 @@ export const RegisterSchema = z
             .regex(/[A-Z]/, "Debe contener una letra mayúscula")
             .regex(/[0-9]/, "Debe contener un número"),
         confirmPassword: z.string(),
+
+        // ✅ Checkboxes legales
+        acceptTerms: z.literal(true, {
+            errorMap: () => ({ message: "Debes aceptar los Términos y Condiciones" }),
+        }),
+        acceptPrivacy: z.literal(true, {
+            errorMap: () => ({ message: "Debes aceptar la Política de Privacidad" }),
+        }),
+        acceptConsent: z.literal(true, {
+            errorMap: () => ({ message: "Debes aceptar el Consentimiento Informado" }),
+        }),
+
+        // ✅ Metadatos de consentimiento (se setean en el submit)
+        consentVersion: z.string(),
+        consentTimestamp: z.string(), // ISO 8601
     })
     .refine((data) => data.password === data.confirmPassword, {
         message: "Las contraseñas no coinciden",
         path: ["confirmPassword"],
     });
+
 
 export type RegisterDTO = z.infer<typeof RegisterSchema>;

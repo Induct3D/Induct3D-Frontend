@@ -7,12 +7,35 @@ export default function Footer() {
                     Induct<span className="text-[#A71C20]">3D</span>
                 </div>
 
+                {/* Enlaces legales */}
+                <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-400">
+                    <a
+                        href="/terms"
+                        className="hover:text-[#A71C20] transition-colors duration-200"
+                    >
+                        Términos y Condiciones
+                    </a>
+                    <span className="hidden md:inline text-gray-500">|</span>
+                    <a
+                        href="/privacy"
+                        className="hover:text-[#A71C20] transition-colors duration-200"
+                    >
+                        Política de Privacidad
+                    </a>
+                    <span className="hidden md:inline text-gray-500">|</span>
+                    <a
+                        href="/consent"
+                        className="hover:text-[#A71C20] transition-colors duration-200"
+                    >
+                        Consentimiento Informado
+                    </a>
+                </div>
+
                 {/* Información final */}
-                <div className="text-xs text-gray-400 text-center md:text-right">
+                <div className="text-xs text-gray-500 text-center md:text-right">
                     © {new Date().getFullYear()} Induct3D. Todos los derechos reservados.
                 </div>
             </div>
         </footer>
-
-    )
+    );
 }
