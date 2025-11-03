@@ -25,6 +25,8 @@
     "@tiptap/extension-youtube": "^2.12.0",
     "@tiptap/react": "^2.12.0",
     "@tiptap/starter-kit": "^2.12.0",
+    "jspdf": "^3.0.3",
+    "jspdf-autotable": "^5.0.2",
     "lucide-react": "^0.510.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

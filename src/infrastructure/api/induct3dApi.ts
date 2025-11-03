@@ -14,6 +14,6 @@ export const induct3dApi = createApi({
             return headers
         }
     }),
-    tagTypes: ["Tours"],
+    tagTypes: ["Tours", "Profile"],
     endpoints: () => ({})
 })

@@ -20,6 +20,7 @@ import Error403 from "../../presentation/pages/Error403.tsx";
 import AdminLayout from "../../presentation/layout/AdminLayout.tsx";
 import AdminDashboard from "../../presentation/pages/Admin/Dashboard.tsx";
 import ManageTours from "../../presentation/pages/Admin/ManageTours.tsx";
+import ProfilePage from "../../presentation/pages/Creator/ProfilePage.tsx";
 
 export const router = createBrowserRouter([
     // Públicas
@@ -58,6 +59,7 @@ export const router = createBrowserRouter([
                 children: [
                     { index: true, element: <Dashboard /> },
                     { path: "crear", element: <CreateTour /> },
+                    { path: "perfil", element: <ProfilePage /> },
                     { path: "editar/:id", element: <EditTour /> },
                 ],
             },
