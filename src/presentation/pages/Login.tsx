@@ -5,9 +5,10 @@ import {Link, useNavigate } from "react-router"
 import {LoginDTO, LoginSchema} from "../../infrastructure/schemas/LoginSchema.ts";
 import { useLoginMutation } from "../../infrastructure/api/authApi.ts";
 import {getErrorMessage} from "../../infrastructure/utils/getErrorMessage.ts";
+import {UserRole} from "../../infrastructure/schemas/LoginResponseSchema.ts";
 
 export default function Login() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const {
         register,
@@ -15,21 +16,33 @@ export default function Login() {
         formState: { errors }
     } = useForm<LoginDTO>({
         resolver: zodResolver(LoginSchema)
-    })
+    });
 
-    const [loginUser, { isLoading, isSuccess, isError, error, data }] = useLoginMutation()
+    const [loginUser, { isLoading, isSuccess, isError, error, data }] = useLoginMutation();
 
     const onSubmit = (formData: LoginDTO) => {
-        loginUser(formData)
-    }
+        loginUser(formData);
+    };
+
+    // Mapa de redirección por rol (ajustaremos estas rutas en el siguiente paso)
+    const ROLE_DEFAULT_PATH: Record<UserRole, string> = {
+        CREATOR: "/dashboard", // temporal: usa tu dashboard actual del creador
+        ADMIN: "/admin"        // temporal: crearemos/ajustaremos esta ruta luego
+    };
 
     useEffect(() => {
-        if (isSuccess && data?.token) {
-            localStorage.setItem("token", data.token)
-            console.log("Login exitoso. Token guardado.")
-            navigate("/dashboard", { replace: true });
+        if (isSuccess && data?.token && data?.role) {
+            // Guarda token y role (temporal; luego lo pasamos a Redux slice)
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("role", data.role);
+
+            console.log("Login exitoso. Token y rol guardados.", data);
+
+            // Redirección por rol
+            const target = ROLE_DEFAULT_PATH[data.role] ?? "/dashboard";
+            navigate(target, { replace: true });
         }
-    }, [isSuccess, data, navigate])
+    }, [isSuccess, data, navigate]);
 
     return (
         <div className="min-h-screen relative flex items-center justify-center bg-gray-50 px-4">
@@ -72,9 +85,7 @@ export default function Login() {
 
                     {/* Mensajes de estado */}
                     {isLoading && <p className="text-sm text-gray-500">Iniciando sesión...</p>}
-                    {isError && (
-                        <p className="text-sm text-red-600">{getErrorMessage(error)}</p>
-                    )}
+                    {isError && <p className="text-sm text-red-600">{getErrorMessage(error)}</p>}
 
                     {/* ¿Olvidaste tu contraseña? */}
                     <div className="text-right text-sm">
@@ -110,5 +121,5 @@ export default function Login() {
                 </div>
             </div>
         </div>
-    )
+    );
 }

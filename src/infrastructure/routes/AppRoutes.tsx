@@ -16,48 +16,72 @@ import EditTour from "../../presentation/pages/Creator/EditTour.tsx"
 import Terms from "../../presentation/pages/Terms.tsx";
 import Consent from "../../presentation/pages/Consent.tsx";
 import Privacy from "../../presentation/pages/Privacy.tsx";
+import Error403 from "../../presentation/pages/Error403.tsx";
+import AdminLayout from "../../presentation/layout/AdminLayout.tsx";
+import AdminDashboard from "../../presentation/pages/Admin/Dashboard.tsx";
+import ManageTours from "../../presentation/pages/Admin/ManageTours.tsx";
 
 export const router = createBrowserRouter([
+    // Públicas
     {
         path: "/",
         element: <Layout />,
         children: [
             { index: true, element: <Home /> },
             { path: "recorridos", element: <Tours /> },
-            { path: "terms", element: <Terms/> },
-            { path: "privacy", element: <Privacy/> },
-            { path: "consent", element: <Consent/> },
-        ]
+            { path: "terms", element: <Terms /> },
+            { path: "privacy", element: <Privacy /> },
+            { path: "consent", element: <Consent /> },
+        ],
+
+    },
+    { path: "recorrido/:id", element: <ViewTour /> },
+
+
+    // Auth públicas (solo si NO hay token)
+    {
+        element: <PublicRoute />,
+        children: [
+            { path: "iniciar-sesion", element: <Login /> },
+            { path: "registrarse", element: <Register /> },
+            { path: "recuperar-contrasena", element: <RecoverPassword /> },
+        ],
     },
 
-    // Rutas protegidas
+    // Protegidas CREATOR (mantiene tu /dashboard)
     {
-        path: "/dashboard",
-        element: <PrivateRoute />,
+        element: <PrivateRoute roles={["CREATOR"]} />,
         children: [
             {
-                path: "",
+                path: "/dashboard",
                 element: <CreatorLayout />,
                 children: [
                     { index: true, element: <Dashboard /> },
                     { path: "crear", element: <CreateTour /> },
-                    { path: "editar/:id", element: <EditTour /> }
-                ]
-            }
-        ]
+                    { path: "editar/:id", element: <EditTour /> },
+                ],
+            },
+        ],
     },
 
-    // Públicas (SOLO accesibles si NO hay token)
-  {
-    element: <PublicRoute />,
-    children: [
-      { path: "iniciar-sesion", element: <Login /> },
-      { path: "registrarse", element: <Register /> },
-      { path: "recuperar-contrasena", element: <RecoverPassword /> },
-    ],
-  },
+    // Protegidas ADMIN (nuevo /admin)
+    {
+        element: <PrivateRoute roles={["ADMIN"]} />,
+        children: [
+            {
+                path: "/admin",
+                element: <AdminLayout />,
+                children: [
+                    { index: true, element: <AdminDashboard /> },
+                    { path: "recorridos", element: <ManageTours /> },
+                    // { path: "recorridos/estados", element: <AdminToursByStatus /> }, // lo dejamos para luego
+                ],
+            },
+        ],
+    },
 
-    { path: "/recorrido/:id", element: <ViewTour /> },
+    // Errores
+    { path: "/403", element: <Error403 /> },
+    { path: "/*", element: <Error404 /> },
+]);
 
-    { path: "/*", element: <Error404 /> }
-])
