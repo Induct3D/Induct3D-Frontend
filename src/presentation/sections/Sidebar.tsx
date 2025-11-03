@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router"; // mismo paquete que usas
+import { NavLink, useNavigate } from "react-router"; // mismo paquete que usas
 import { FiHome, FiPlusSquare, FiLogOut, FiChevronLeft, FiChevronRight, FiUser } from "react-icons/fi";
 import Logo from "/img/LogoInduct3D.png"
 
