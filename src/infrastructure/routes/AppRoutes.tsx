@@ -34,7 +34,6 @@ export const router = createBrowserRouter([
             { path: "privacy", element: <Privacy /> },
             { path: "consent", element: <Consent /> },
         ],
-
     },
     { path: "recorrido/:id", element: <ViewTour /> },
 
