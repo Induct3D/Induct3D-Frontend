@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router";
 import { RecoverRequestDTO, RecoverRequestSchema } from "../../../infrastructure/schemas/RecoverPasswordSchema.ts";
 import { useRequestResetCodeMutation } from "../../../infrastructure/api/authApi.ts";
+import {useToast} from "../../components/ui/ToastProvider.tsx";
 
 interface Props {
     onNext: () => void;
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export default function RecoverStep1({ onNext, setEmail }: Props) {
+    const { showToast } = useToast();
     const [requestResetCode, { isLoading }] = useRequestResetCodeMutation();
 
     const {
@@ -24,10 +26,17 @@ export default function RecoverStep1({ onNext, setEmail }: Props) {
         try {
             await requestResetCode(data).unwrap();
             setEmail(data.email);
+            showToast({
+                variant: "info",
+                message: "Si el correo existe, te enviamos un código de verificación.",
+            });
             onNext();
         } catch (err) {
             const error = err as { data?: { message?: string } };
-            alert(error.data?.message || "Error al enviar el código");
+            showToast({
+                variant: "error",
+                message: error.data?.message || "No pudimos enviar el código. Inténtalo nuevamente.",
+            });
         }
     };
 
