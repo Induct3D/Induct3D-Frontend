@@ -1,3 +1,4 @@
+// src/presentation/sections/CustomizationSidebar/CustomizationSidebarEditor.tsx
 import { useEffect, useState } from "react";
 import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
@@ -24,6 +25,8 @@ export default function CustomizationSidebarEditor({
                                                        initialDescription,
                                                        initialColors,
                                                        initialSteps,
+                                                       initialHasPassword,    // 🆕
+                                                       initialPassword,       // 🆕
                                                    }: EditorProps) {
     const navigate = useNavigate();
     const [updateTour] = useUpdateTourMutation();
@@ -33,10 +36,18 @@ export default function CustomizationSidebarEditor({
     const [selectedColors, setSelectedColors] = useState<ColorMap>(initialColors);
     const [showSuccess, setShowSuccess] = useState(false);
 
+    // --------- estado info tour ----------
     const [tourName, setTourName] = useState(initialName);
     const [description, setDescription] = useState(initialDescription);
+
+    // 🆕 estado de contraseña
+    const [hasPassword, setHasPassword] = useState<boolean>(initialHasPassword);
+    const [password, setPassword] = useState<string>(initialPassword ?? "");
+
+    // --------- steps ----------
     const [stepMessages, setStepMessages] = useState<StepMessage[]>(initialSteps);
-    const [newMessagesPerStep, setNewMessagesPerStep] = useState<Record<string, string>>({});
+    const [newMessagesPerStep, setNewMessagesPerStep] =
+        useState<Record<string, string>>({});
 
     useEffect(() => {
         const editableEntries = Object.entries(loadedMaterials).filter(
@@ -58,7 +69,7 @@ export default function CustomizationSidebarEditor({
 
     const speak = (text: string) => {
         const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = "es-ES";
+        utterance.lang = "es-PE";
         speechSynthesis.speak(utterance);
     };
 
@@ -101,6 +112,8 @@ export default function CustomizationSidebarEditor({
             tourName,
             description,
             templateId,
+            hasPassword,                              // 🆕
+            password: hasPassword ? password : null,  // 🆕
             materialColors: selectedColors,
             steps: stepMessages,
         };
@@ -118,18 +131,22 @@ export default function CustomizationSidebarEditor({
         }
     };
 
-
     return (
         <aside className="w-[420px] border-l bg-white p-6 overflow-y-auto">
             <h2 className="text-xl font-bold mb-4 text-[#A71C20]">
                 Editar recorrido (ID: {tourId})
             </h2>
 
+            {/* Info + contraseña */}
             <TourInfoSection
                 tourName={tourName}
                 setTourName={setTourName}
                 description={description}
                 setDescription={setDescription}
+                hasPassword={hasPassword}           // 🆕
+                setHasPassword={setHasPassword}     // 🆕
+                password={password}                 // 🆕
+                setPassword={setPassword}           // 🆕
             />
 
             <MaterialColorsSection

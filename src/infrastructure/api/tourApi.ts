@@ -107,6 +107,7 @@ export const tourApi = induct3dApi.injectEndpoints({
             }),
             invalidatesTags: ["Tours"],
         }),
+
         // ▶ Aprobar tour (ADMIN)
         approveTour: builder.mutation<SimpleMessageApiResponse, string>({
             query: (tourId) => ({

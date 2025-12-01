@@ -60,6 +60,16 @@ export default function AdminViewTour() {
         );
     }
 
+    // 🔧 Adaptamos los steps para que boardMedia.html sea siempre string (no null)
+    const safeSteps = tour.steps.map((s) => ({
+        stepId: s.stepId,
+        messages: s.messages,
+        boardMedia:
+            s.boardMedia && s.boardMedia.html
+                ? { html: s.boardMedia.html }
+                : null,
+    }));
+
     const handleApprove = async () => {
         try {
             await approveTour(id).unwrap();
@@ -119,7 +129,7 @@ export default function AdminViewTour() {
             <TourViewerCanvas
                 glbUrl={tour.glbUrl}
                 predefinedSteps={tour.predefinedSteps}
-                steps={tour.steps}
+                steps={safeSteps}
                 materialColors={tour.materialColors}
                 userStart={tour.userStart}
                 tourTitle={tour.tourName ?? "Recorrido sin título"}
@@ -127,7 +137,6 @@ export default function AdminViewTour() {
                 onAdminApprove={handleApprove}
                 onAdminReject={openRejectModal}
             />
-
 
             {/* Modal de rechazo (encima de todo) */}
             <RejectTourModal

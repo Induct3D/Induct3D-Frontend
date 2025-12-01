@@ -22,13 +22,28 @@ export default function TourViewerCanvas({
                                              isAdmin = false,
                                              onAdminApprove,
                                              onAdminReject,
+                                             // NUEVO: protección con contraseña
+                                             requiresPassword = false,
+                                             tourPassword,
                                          }: TourViewerCanvasProps) {
     const [subtitle, setSubtitle] = useState("");
     const [isPaused, setIsPaused] = useState(false);
     const [hasStarted, setHasStarted] = useState(false);
     const [menuView, setMenuView] = useState<MenuView>("main");
 
+    // Estado para contraseña
+    const [password, setPassword] = useState("");
+    const [passwordError, setPasswordError] = useState<string | null>(null);
+    const [isUnlocked, setIsUnlocked] = useState<boolean>(!requiresPassword);
+
     const navigate = useNavigate();
+
+    // Si cambia el flag de contraseña, reseteamos estado
+    useEffect(() => {
+        setIsUnlocked(!requiresPassword);
+        setPassword("");
+        setPasswordError(null);
+    }, [requiresPassword]);
 
     // Volver del submenú de instrucciones al menú principal con ESC (solo en pausa)
     useEffect(() => {
@@ -44,10 +59,43 @@ export default function TourViewerCanvas({
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, [isPaused, menuView]);
 
+    // Validar contraseña localmente con la info del tour
+    const handleValidatePassword = () => {
+        if (!requiresPassword) return;
+
+        if (!tourPassword) {
+            setPasswordError(
+                "No se puede validar la contraseña en este momento."
+            );
+            return;
+        }
+
+        if (!password.trim()) {
+            setPasswordError("Ingresa la contraseña.");
+            return;
+        }
+
+        if (password.trim() === tourPassword) {
+            setIsUnlocked(true);
+            setPasswordError(null);
+        } else {
+            setIsUnlocked(false);
+            setPasswordError("Contraseña incorrecta. Inténtalo nuevamente.");
+        }
+    };
+
     // Iniciar recorrido desde el menú de inicio
     const handleStart = () => {
+        // Bloqueo si requiere contraseña y aún no está desbloqueado
+        if (requiresPassword && !isUnlocked) {
+            setPasswordError(
+                "Debes ingresar la contraseña correcta antes de iniciar."
+            );
+            return;
+        }
+
         const canvas = document.getElementById(
-            "tour-viewer-canvas",
+            "tour-viewer-canvas"
         ) as HTMLCanvasElement | null;
 
         if (canvas && canvas.requestPointerLock) {
@@ -62,7 +110,7 @@ export default function TourViewerCanvas({
     // Continuar desde el menú de pausa
     const handleContinue = () => {
         const canvas = document.getElementById(
-            "tour-viewer-canvas",
+            "tour-viewer-canvas"
         ) as HTMLCanvasElement | null;
 
         if (canvas && canvas.requestPointerLock) {
@@ -123,7 +171,7 @@ export default function TourViewerCanvas({
                     if (!step.boardMedia) return null;
 
                     const stepMeta = predefinedSteps.find(
-                        (ps) => ps.id === step.stepId,
+                        (ps) => ps.id === step.stepId
                     );
                     if (!stepMeta || !stepMeta.hasBoard || !stepMeta.boardConfig)
                         return null;
@@ -188,42 +236,92 @@ export default function TourViewerCanvas({
                         </h1>
                         <p className="text-sm text-gray-600 text-center mb-6">
                             Revisa las instrucciones y presiona{" "}
-                            <span className="font-semibold">“Iniciar recorrido”</span> para
-                            comenzar.
+                            <span className="font-semibold">
+                                “Iniciar recorrido”
+                            </span>{" "}
+                            para comenzar.
                         </p>
 
+                        {/* BLOQUE CONTRASEÑA: solo si el tour la requiere */}
+                        {requiresPassword && (
+                            <div className="mb-6">
+                                <p className="text-sm font-medium text-gray-800 mb-2">
+                                    Este recorrido está protegido con
+                                    contraseña.
+                                </p>
+                                <input
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#A71C20]/60"
+                                    placeholder="Ingresa la contraseña del recorrido"
+                                />
+                                {passwordError && (
+                                    <p className="mt-1 text-xs text-red-600">
+                                        {passwordError}
+                                    </p>
+                                )}
+                                <button
+                                    type="button"
+                                    onClick={handleValidatePassword}
+                                    className="mt-3 w-full py-2.5 rounded-lg bg-gray-900 text-white text-sm font-semibold transition"
+                                >
+                                    Validar contraseña
+                                </button>
+                                {isUnlocked && requiresPassword && (
+                                    <p className="mt-1 text-xs text-green-600">
+                                        Contraseña correcta. Ya puedes iniciar
+                                        el recorrido.
+                                    </p>
+                                )}
+                            </div>
+                        )}
+
                         <div className="bg-gray-50 border border-gray-200 rounded-xl px-5 py-4 text-sm text-gray-800 mb-6">
-                            <p className="font-semibold mb-2">Movimientos básicos</p>
+                            <p className="font-semibold mb-2">
+                                Movimientos básicos
+                            </p>
                             <ul className="list-disc list-inside space-y-1">
-                                <li>Haz clic en el recorrido para activar el control con el mouse.</li>
                                 <li>
-                                    Usa <strong>W</strong> para avanzar, <strong>S</strong> para
-                                    retroceder, <strong>A</strong> para ir a la izquierda y{" "}
+                                    Haz clic en el recorrido para activar el
+                                    control con el mouse.
+                                </li>
+                                <li>
+                                    Usa <strong>W</strong> para avanzar,{" "}
+                                    <strong>S</strong> para retroceder,{" "}
+                                    <strong>A</strong> para ir a la izquierda y{" "}
                                     <strong>D</strong> para la derecha.
                                 </li>
                                 <li>
-                                    Mueve el mouse para girar la cámara mientras el cursor esté
-                                    bloqueado.
+                                    Mueve el mouse para girar la cámara mientras
+                                    el cursor esté bloqueado.
                                 </li>
                             </ul>
 
-                            <p className="font-semibold mt-4 mb-2">Navegación por pasos</p>
+                            <p className="font-semibold mt-4 mb-2">
+                                Navegación por pasos
+                            </p>
                             <ul className="list-disc list-inside space-y-1">
                                 <li>
-                                    Presiona <strong>Espacio</strong> para avanzar al siguiente paso
-                                    del recorrido.
+                                    Presiona <strong>Espacio</strong> para
+                                    avanzar al siguiente paso del recorrido.
                                 </li>
                             </ul>
 
-                            <p className="font-semibold mt-4 mb-2">Pausa y salida</p>
+                            <p className="font-semibold mt-4 mb-2">
+                                Pausa y salida
+                            </p>
                             <ul className="list-disc list-inside space-y-1">
                                 <li>
-                                    Presiona <strong>Esc</strong> para salir del control del mouse y
-                                    abrir el menú de pausa.
+                                    Presiona <strong>Esc</strong> para salir del
+                                    control del mouse y abrir el menú de pausa.
                                 </li>
                                 <li>
-                                    Desde el menú podrás continuar, revisar las instrucciones o
-                                    volver a la pantalla anterior.
+                                    Desde el menú podrás continuar, revisar las
+                                    instrucciones o volver a la pantalla
+                                    anterior.
                                 </li>
                             </ul>
                         </div>
@@ -239,7 +337,12 @@ export default function TourViewerCanvas({
                             <button
                                 type="button"
                                 onClick={handleStart}
-                                className="px-6 py-2.5 rounded-lg bg-[#A71C20] text-white text-sm font-semibold hover:opacity-90 transition"
+                                disabled={requiresPassword && !isUnlocked}
+                                className={`px-6 py-2.5 rounded-lg text-sm font-semibold transition ${
+                                    requiresPassword && !isUnlocked
+                                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                        : "bg-[#A71C20] text-white hover:opacity-90"
+                                }`}
                             >
                                 Iniciar recorrido
                             </button>
@@ -256,8 +359,9 @@ export default function TourViewerCanvas({
                             Pausa
                         </h2>
                         <p className="text-sm text-gray-600 text-center mb-6">
-                            El recorrido está en pausa. Puedes continuar, revisar las
-                            instrucciones o volver a la pantalla anterior.
+                            El recorrido está en pausa. Puedes continuar,
+                            revisar las instrucciones o volver a la pantalla
+                            anterior.
                         </p>
 
                         <div className="flex flex-col gap-3">
@@ -317,41 +421,53 @@ export default function TourViewerCanvas({
                             Instrucciones
                         </h2>
                         <p className="text-sm text-gray-600 text-center mb-4">
-                            Revisa cómo moverte e interactuar dentro del recorrido.
+                            Revisa cómo moverte e interactuar dentro del
+                            recorrido.
                         </p>
 
                         <div className="bg-gray-50 border border-gray-200 rounded-xl px-5 py-4 text-sm text-gray-800 mb-6">
-                            <p className="font-semibold mb-2">Movimientos básicos</p>
+                            <p className="font-semibold mb-2">
+                                Movimientos básicos
+                            </p>
                             <ul className="list-disc list-inside space-y-1">
-                                <li>Haz clic en el recorrido para activar el control con el mouse.</li>
                                 <li>
-                                    Usa <strong>W</strong> para avanzar, <strong>S</strong> para
-                                    retroceder, <strong>A</strong> para ir a la izquierda y{" "}
+                                    Haz clic en el recorrido para activar el
+                                    control con el mouse.
+                                </li>
+                                <li>
+                                    Usa <strong>W</strong> para avanzar,{" "}
+                                    <strong>S</strong> para retroceder,{" "}
+                                    <strong>A</strong> para ir a la izquierda y{" "}
                                     <strong>D</strong> para la derecha.
                                 </li>
                                 <li>
-                                    Mueve el mouse para girar la cámara mientras el cursor esté
-                                    bloqueado.
+                                    Mueve el mouse para girar la cámara mientras
+                                    el cursor esté bloqueado.
                                 </li>
                             </ul>
 
-                            <p className="font-semibold mt-4 mb-2">Navegación por pasos</p>
+                            <p className="font-semibold mt-4 mb-2">
+                                Navegación por pasos
+                            </p>
                             <ul className="list-disc list-inside space-y-1">
                                 <li>
-                                    Presiona <strong>Espacio</strong> para avanzar al siguiente paso
-                                    del recorrido.
+                                    Presiona <strong>Espacio</strong> para
+                                    avanzar al siguiente paso del recorrido.
                                 </li>
                             </ul>
 
-                            <p className="font-semibold mt-4 mb-2">Pausa y salida</p>
+                            <p className="font-semibold mt-4 mb-2">
+                                Pausa y salida
+                            </p>
                             <ul className="list-disc list-inside space-y-1">
                                 <li>
-                                    Presiona <strong>Esc</strong> para salir del control del mouse y
-                                    abrir el menú de pausa.
+                                    Presiona <strong>Esc</strong> para salir del
+                                    control del mouse y abrir el menú de pausa.
                                 </li>
                                 <li>
-                                    Desde el menú puedes continuar, ver instrucciones o volver a la
-                                    pantalla anterior.
+                                    Desde el menú puedes continuar, ver
+                                    instrucciones o volver a la pantalla
+                                    anterior.
                                 </li>
                             </ul>
                         </div>

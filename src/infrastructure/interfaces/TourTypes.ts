@@ -30,6 +30,8 @@ export type TourViewerCanvasProps = {
     isAdmin?: boolean;
     onAdminApprove?: () => void;
     onAdminReject?: () => void;
+    requiresPassword?: boolean;
+    tourPassword?: string | null;
 };
 
 export type SceneModelProps = {

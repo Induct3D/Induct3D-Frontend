@@ -35,6 +35,16 @@ export default function ViewTour() {
         );
     }
 
+    // 🔧 Adaptamos steps igual que en AdminViewTour
+    const safeSteps = tour.steps.map((s) => ({
+        stepId: s.stepId,
+        messages: s.messages,
+        boardMedia:
+            s.boardMedia && s.boardMedia.html
+                ? { html: s.boardMedia.html }
+                : null,
+    }));
+
     return (
         <div className="w-full h-screen relative">
             {/* Mira */}
@@ -46,10 +56,13 @@ export default function ViewTour() {
             <TourViewerCanvas
                 glbUrl={tour.glbUrl}
                 predefinedSteps={tour.predefinedSteps}
-                steps={tour.steps}
+                steps={safeSteps}
                 materialColors={tour.materialColors}
                 userStart={tour.userStart}
                 tourTitle={tour.tourName ?? "Recorrido sin título"}
+                // Contraseña (solo si existe)
+                requiresPassword={Boolean(tour.password)}
+                tourPassword={tour.password}
             />
         </div>
     );
