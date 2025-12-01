@@ -38,6 +38,8 @@ export interface EditorProps {
     initialDescription: string;
     initialColors: ColorMap;
     initialSteps: StepMessage[];
+    initialHasPassword: boolean;
+    initialPassword?: string | null;
 }
 
 export type MaterialMap = Record<string, MeshStandardMaterial>;

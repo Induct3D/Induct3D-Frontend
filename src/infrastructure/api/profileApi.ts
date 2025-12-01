@@ -1,37 +1,55 @@
-import { induct3dApi } from "./induct3dApi"
+// src/infrastructure/api/profileApi.ts
+import { induct3dApi } from "./induct3dApi";
+import { ApiResponse } from "../schemas/ApiResponseSchema";
 
 export interface Profile {
-    username: string
-    email: string
-    name: string
-    surname: string
-    role: "ADMIN" | "CREATOR" | "USER" | string
+    username: string;
+    email: string;
+    name: string;
+    surname: string;
+    role: "ADMIN" | "CREATOR" | "USER" | string;
 }
 
 export interface UpdateProfileDTO {
-    name: string
-    surname: string
+    name: string;
+    surname: string;
 }
+
+// 🔹 Tipos de respuesta del backend
+type ProfileApiResponse = ApiResponse<Profile>;
+type DeleteProfileApiResponse = ApiResponse<{ message?: string }>;
 
 export const profileApi = induct3dApi.injectEndpoints({
     endpoints: (build) => ({
-        getProfile: build.query<Profile, void>({
+        // ▶ Obtener perfil
+        getProfile: build.query<ProfileApiResponse, void>({
             query: () => ({ url: "/api/user/profile", method: "GET" }),
             providesTags: ["Profile"],
         }),
-        updateProfile: build.mutation<Profile, UpdateProfileDTO>({
-            query: (body) => ({ url: "/api/user/profile", method: "PUT", body }),
+
+        // ▶ Actualizar perfil
+        updateProfile: build.mutation<ProfileApiResponse, UpdateProfileDTO>({
+            query: (body) => ({
+                url: "/api/user/profile",
+                method: "PUT",
+                body,
+            }),
             invalidatesTags: ["Profile"],
         }),
-        deleteProfile: build.mutation<{ message?: string }, void>({
-            query: () => ({ url: "/api/user/profile", method: "DELETE" }),
+
+        // ▶ Eliminar perfil
+        deleteProfile: build.mutation<DeleteProfileApiResponse, void>({
+            query: () => ({
+                url: "/api/user/profile",
+                method: "DELETE",
+            }),
         }),
     }),
-    overrideExisting: false,
-})
+    overrideExisting: true,
+});
 
 export const {
     useGetProfileQuery,
     useUpdateProfileMutation,
     useDeleteProfileMutation,
-} = profileApi
+} = profileApi;

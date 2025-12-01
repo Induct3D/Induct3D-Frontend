@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
-import {Link, useNavigate } from "react-router"
-import {LoginDTO, LoginSchema} from "../../infrastructure/schemas/LoginSchema.ts";
+import { Link, useNavigate } from "react-router"
+import { LoginDTO, LoginSchema } from "../../infrastructure/schemas/LoginSchema.ts";
 import { useLoginMutation } from "../../infrastructure/api/authApi.ts";
-import {getErrorMessage} from "../../infrastructure/utils/getErrorMessage.ts";
-import {UserRole} from "../../infrastructure/schemas/LoginResponseSchema.ts";
+import { getErrorMessage } from "../../infrastructure/utils/getErrorMessage.ts";
+import { UserRole } from "../../infrastructure/schemas/LoginResponseSchema.ts";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -18,28 +18,31 @@ export default function Login() {
         resolver: zodResolver(LoginSchema)
     });
 
-    const [loginUser, { isLoading, isSuccess, isError, error, data }] = useLoginMutation();
+    const [loginUser, { isLoading, isSuccess, isError, error, data }] =
+        useLoginMutation();
 
     const onSubmit = (formData: LoginDTO) => {
         loginUser(formData);
     };
 
-    // Mapa de redirección por rol (ajustaremos estas rutas en el siguiente paso)
+    // Mapa de redirección por rol
     const ROLE_DEFAULT_PATH: Record<UserRole, string> = {
-        CREATOR: "/dashboard", // temporal: usa tu dashboard actual del creador
-        ADMIN: "/admin"        // temporal: crearemos/ajustaremos esta ruta luego
+        CREATOR: "/dashboard",
+        ADMIN: "/admin",
     };
 
     useEffect(() => {
-        if (isSuccess && data?.token && data?.role) {
-            // Guarda token y role (temporal; luego lo pasamos a Redux slice)
-            localStorage.setItem("token", data.token);
-            localStorage.setItem("role", data.role);
+        if (isSuccess && data?.data?.token && data?.data?.role) {
+            const { token, role } = data.data;
+
+            // Guarda token y role (ojo: ya lo hace onQueryStarted, pero aquí no estorba)
+            localStorage.setItem("token", token);
+            localStorage.setItem("role", role);
 
             console.log("Login exitoso. Token y rol guardados.", data);
 
             // Redirección por rol
-            const target = ROLE_DEFAULT_PATH[data.role] ?? "/dashboard";
+            const target = ROLE_DEFAULT_PATH[role] ?? "/dashboard";
             navigate(target, { replace: true });
         }
     }, [isSuccess, data, navigate]);
@@ -54,42 +57,61 @@ export default function Login() {
             </Link>
 
             <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg">
-                <h2 className="text-2xl font-bold text-center text-[#A71C20] mb-6">Iniciar sesión</h2>
+                <h2 className="text-2xl font-bold text-center text-[#A71C20] mb-6">
+                    Iniciar sesión
+                </h2>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     {/* Usuario */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Nombre de usuario:</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Nombre de usuario:
+                        </label>
                         <input
                             type="text"
                             {...register("username")}
                             className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#A71C20]"
                         />
                         {errors.username && (
-                            <p className="text-sm text-red-600 mt-1">{errors.username.message}</p>
+                            <p className="text-sm text-red-600 mt-1">
+                                {errors.username.message}
+                            </p>
                         )}
                     </div>
 
                     {/* Contraseña */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Contraseña:</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Contraseña:
+                        </label>
                         <input
                             type="password"
                             {...register("password")}
                             className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#A71C20]"
                         />
                         {errors.password && (
-                            <p className="text-sm text-red-600 mt-1">{errors.password.message}</p>
+                            <p className="text-sm text-red-600 mt-1">
+                                {errors.password.message}
+                            </p>
                         )}
                     </div>
 
                     {/* Mensajes de estado */}
-                    {isLoading && <p className="text-sm text-gray-500">Iniciando sesión...</p>}
-                    {isError && <p className="text-sm text-red-600">{getErrorMessage(error)}</p>}
+                    {isLoading && (
+                        <p className="text-sm text-gray-500">Iniciando sesión...</p>
+                    )}
+                    {isError && (
+                        <p className="text-sm text-red-600">
+                            {getErrorMessage(error)}
+                        </p>
+                    )}
 
                     {/* ¿Olvidaste tu contraseña? */}
                     <div className="text-right text-sm">
-                        <Link to="/recuperar-contrasena" className="text-[#A71C20] hover:underline">
+                        <Link
+                            to="/recuperar-contrasena"
+                            className="text-[#A71C20] hover:underline"
+                        >
                             ¿Olvidaste tu contraseña?
                         </Link>
                     </div>

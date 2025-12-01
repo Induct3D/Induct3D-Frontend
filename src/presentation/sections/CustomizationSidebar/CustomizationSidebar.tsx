@@ -62,6 +62,10 @@ export default function CustomizationSidebar({
     const [tourName, setTourName] = useState("");
     const [description, setDescription] = useState("");
 
+    // 🆕 estado de contraseña
+    const [hasPassword, setHasPassword] = useState(false);
+    const [password, setPassword] = useState("");
+
     // --------------- ESTADO DE STEPS ---------------
     const [stepMessages, setStepMessages] = useState<StepMessage[]>(
         predefinedSteps.map((step) => ({
@@ -125,13 +129,20 @@ export default function CustomizationSidebar({
             tourName,
             description,
             templateId,
+            hasPassword,
+            password: hasPassword ? password : null,   // 🆕 clave
             materialColors: selectedColors,
-            steps: stepMessages,
+            steps: stepMessages.map((step) => ({
+                stepId: step.stepId,
+                messages: step.messages,
+                ...(step.boardMedia ? { boardMedia: step.boardMedia } : {}),
+            })),
         };
 
         const parsed = CreateTourSchema.safeParse(payload);
         if (!parsed.success) {
             console.error("Error de validación:", parsed.error.format());
+            alert("Revisa los datos del recorrido. Falta información obligatoria.");
             return;
         }
 
@@ -139,7 +150,7 @@ export default function CustomizationSidebar({
             await createTour(parsed.data).unwrap();
             setShowSuccess(true);
             setTimeout(() => {
-                setShowSuccess(false); // opcional, limpieza
+                setShowSuccess(false);
                 navigate("/dashboard");
             }, 2000);
         } catch (error) {
@@ -161,6 +172,10 @@ export default function CustomizationSidebar({
                 setTourName={setTourName}
                 description={description}
                 setDescription={setDescription}
+                hasPassword={hasPassword}
+                setHasPassword={setHasPassword}
+                password={password}
+                setPassword={setPassword}
             />
 
             {/* 2. Sección de selección de colores */}

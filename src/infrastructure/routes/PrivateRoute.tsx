@@ -1,7 +1,7 @@
 // src/infrastructure/routes/PrivateRoute.tsx
 import { Navigate, Outlet } from "react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useRefreshMutation, useLazyValidateTokenQuery } from "../../infrastructure/api/authApi";
+import { useRefreshMutation, useLazyValidateTokenQuery } from "../api/authApi.ts";
 
 // ---- Utils JWT ----
 function decodeExp(token: string): number | null {
@@ -46,7 +46,7 @@ export default function PrivateRoute({ roles }: { roles?: UserRole[] }) {
             lastValidatedAt.current = Date.now()
             try {
                 const res = await triggerValidate().unwrap()
-                if (res.status !== 'OK') throw new Error('invalid')
+                if (res.data.status !== 'OK') throw new Error('invalid')
             } catch {
                 goLogin()
                 throw new Error('invalid')

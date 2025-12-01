@@ -43,7 +43,7 @@ export default function Register() {
             console.log("Registrando usuario...");
         }
         if (isSuccess && data) {
-            console.log("Registro exitoso:", data.message);
+            console.log("Registro exitoso:", data.data.message);
             navigate("/iniciar-sesion");
         }
         if (isError) {
