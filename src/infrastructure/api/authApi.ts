@@ -5,76 +5,102 @@ import { MessageResponse } from "../schemas/MessageResponseSchema.ts";
 import { LoginResponse } from "../schemas/LoginResponseSchema.ts";
 import { LoginDTO } from "../schemas/LoginSchema.ts";
 import { RecoverRequestDTO, ResetPasswordPayload } from "../schemas/RecoverPasswordSchema.ts";
+import {ApiResponse} from "../schemas/ApiResponseSchema.ts";
 
-// Tipos simples para refresh/validate
-type RefreshResponse = { token: string }
-type ValidateResponse = { status: 'OK' | 'UNAUTHORIZED'; message: string }
+// 🔹 Tipos de "data" dentro del wrapper
+type RefreshData = { token: string };
+type ValidateTokenData = { status: "OK" | "UNAUTHORIZED"; message: string };
+
+// 🔹 Respuestas finales del backend (data + meta)
+type RegisterApiResponse = ApiResponse<MessageResponse>;
+type LoginApiResponse = ApiResponse<LoginResponse>;
+type MessageApiResponse = ApiResponse<MessageResponse>;
+type RefreshApiResponse = ApiResponse<RefreshData>;
+type ValidateTokenApiResponse = ApiResponse<ValidateTokenData>;
 
 export const authApi = induct3dApi.injectEndpoints({
     endpoints: (builder) => ({
-        register: builder.mutation<MessageResponse, RegisterDTO>({
+        // ▶ Registrar Usuario
+        register: builder.mutation<RegisterApiResponse, RegisterDTO>({
             query: (data) => ({
-                url: '/auth/create',
-                method: 'POST',
-                body: data
+                url: "/auth/create",
+                method: "POST",
+                body: data,
             }),
         }),
 
-        login: builder.mutation<LoginResponse, LoginDTO>({
+        // ▶ Iniciar Sesion
+        login: builder.mutation<LoginApiResponse, LoginDTO>({
             query: (data) => ({
-                url: '/auth/login',
-                method: 'POST',
-                body: data
+                url: "/auth/login",
+                method: "POST",
+                body: data,
             }),
-            // guarda token al hacer login (si tu LoginResponse lo trae)
+            // guarda token al hacer login
             async onQueryStarted(_, { queryFulfilled }) {
                 try {
-                    const {data} = await queryFulfilled
-                    // Ajusta si tu LoginResponse expone el token en otra propiedad
-                    if (data?.token) localStorage.setItem('token', data.token)
-                    if (data?.role) localStorage.setItem('role', data.role)
-                } catch { /* empty */ }
-            }
+                    const { data } = await queryFulfilled;
+                    // ahora el token viene en data.data.token
+                    const token = data?.data?.token;
+                    const role = data?.data?.role as string | undefined;
+
+                    if (token) localStorage.setItem("token", token);
+                    if (role) localStorage.setItem("role", role);
+                } catch {
+                    /* empty */
+                }
+            },
         }),
 
-        // Recuperación de contraseña
-        requestResetCode: builder.mutation<MessageResponse, RecoverRequestDTO>({
+        // ▶ Recuperación de contraseña: enviar código
+        requestResetCode: builder.mutation<MessageApiResponse, RecoverRequestDTO>({
             query: (data) => ({
-                url: '/auth/reset-request',
-                method: 'POST',
+                url: "/auth/reset-request",
+                method: "POST",
                 body: data,
             }),
         }),
-        resetPassword: builder.mutation<MessageResponse, ResetPasswordPayload>({
+
+        // ▶ Recuperación de contraseña: resetear
+        resetPassword: builder.mutation<MessageApiResponse, ResetPasswordPayload>({
             query: (data) => ({
-                url: '/auth/reset-password',
-                method: 'POST',
+                url: "/auth/reset-password",
+                method: "POST",
                 body: data,
             }),
         }),
-        validateResetCode: builder.query<MessageResponse, { email: string; code: string }>({
+
+        // ▶ Validar código de recuperación
+        validateResetCode: builder.query<
+            MessageApiResponse,
+            { email: string; code: string }
+        >({
             query: ({ email, code }) => ({
                 url: `/auth/validate-code/${email}/${code}`,
-                method: 'GET',
+                method: "GET",
             }),
         }),
 
-        // ---- Nuevos endpoints para sesión ----
-        refresh: builder.mutation<RefreshResponse, void>({
-            query: () => ({ url: '/auth/refresh', method: 'POST' }),
+        // ▶ Refresh token
+        refresh: builder.mutation<RefreshApiResponse, void>({
+            query: () => ({ url: "/auth/refresh", method: "POST" }),
             async onQueryStarted(_, { queryFulfilled }) {
                 try {
-                    const { data } = await queryFulfilled
-                    if (data?.token) localStorage.setItem('token', data.token)
-                } catch { /* empty */ }
-            }
+                    const { data } = await queryFulfilled;
+                    const token = data?.data?.token;
+                    if (token) localStorage.setItem("token", token);
+                } catch {
+                    /* empty */
+                }
+            },
         }),
 
-        validateToken: builder.query<ValidateResponse, void>({
-            query: () => ({ url: '/auth/validate-token', method: 'GET' }),
+        // ▶ Validar token
+        validateToken: builder.query<ValidateTokenApiResponse, void>({
+            query: () => ({ url: "/auth/validate-token", method: "GET" }),
         }),
     }),
-})
+});
 
 export const {
     useRegisterMutation,
@@ -82,8 +108,6 @@ export const {
     useRequestResetCodeMutation,
     useResetPasswordMutation,
     useLazyValidateResetCodeQuery,
-
-    // nuevos hooks
     useRefreshMutation,
     useLazyValidateTokenQuery,
 } = authApi;
