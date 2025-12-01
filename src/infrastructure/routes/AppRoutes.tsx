@@ -40,7 +40,6 @@ export const router = createBrowserRouter([
     { path: "admin/recorrido/:id", element: <AdminViewTour /> },
 
 
-
     // Auth públicas (solo si NO hay token)
     {
         element: <PublicRoute />,
