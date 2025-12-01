@@ -5,23 +5,43 @@ import { useState } from "react";
 
 export default function ViewTour() {
     const { id } = useParams<{ id: string }>();
-    const [showCrosshair] = useState(true); // Control de visibilidad de la mira
-    const { data: tour, isLoading, error } = useGetTourByIdQuery(id ?? "", {
+    const [showCrosshair] = useState(true);
+
+    // tour ahora es TourByIdResponse | undefined
+    const {
+        data: tour,
+        isLoading,
+        error,
+    } = useGetTourByIdQuery(id ?? "", {
         refetchOnMountOrArgChange: true,
     });
 
+    if (!id) {
+        return (
+            <p className="text-red-600 p-4">
+                URL inválida: falta el ID del recorrido.
+            </p>
+        );
+    }
+
     if (isLoading) return <p>Cargando recorrido...</p>;
-    if (error || !tour) return <p className="text-red-600 p-4">Error al cargar recorrido.</p>;
+    if (error || !tour) {
+        console.error("Error cargando tour:", error, tour);
+        return (
+            <p className="text-red-600 p-4">
+                Error al cargar recorrido.
+            </p>
+        );
+    }
 
     return (
-        <div className="w-full h-screen relative"> {/* relative para asegurar que el div de la mira esté posicionado sobre el canvas */}
-
+        <div className="w-full h-screen relative">
             {/* Mira */}
             {showCrosshair && (
-                <div className="absolute top-1/2 left-1/2 w-1 h-1 bg-black rounded-full transform -translate-x-1/2 -translate-y-1/2 z-50"></div>
+                <div className="absolute top-1/2 left-1/2 w-1 h-1 bg-black rounded-full transform -translate-x-1/2 -translate-y-1/2 z-50" />
             )}
 
-            {/* Componente principal de la escena */}
+            {/* Escena 3D */}
             <TourViewerCanvas
                 glbUrl={tour.glbUrl}
                 predefinedSteps={tour.predefinedSteps}
@@ -31,4 +51,4 @@ export default function ViewTour() {
             />
         </div>
     );
-};
+}

@@ -8,10 +8,21 @@ import { MessageResponse } from "../schemas/MessageResponseSchema.ts";
 
 // 🔹 Tipos de respuesta
 type ToursListApiResponse = ApiResponse<Tour[]>;
-type TourDetailApiResponse = ApiResponse<TourByIdResponse>;
 type CreateTourApiResponse = ApiResponse<TourByIdResponse>;
 type UploadImageApiResponse = ApiResponse<{ url: string }>;
 type SimpleMessageApiResponse = ApiResponse<MessageResponse>;
+
+// 🔹 Tipo específico para el listado de admin
+type AdminTourStatus = "APPROVED" | "REJECTED" | null;
+
+interface AdminTour {
+    tourId: string;
+    tourName: string;
+    description: string;
+    status: AdminTourStatus;
+}
+
+type AdminToursListApiResponse = ApiResponse<AdminTour[]>;
 
 export const tourApi = induct3dApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -51,12 +62,19 @@ export const tourApi = induct3dApi.injectEndpoints({
             providesTags: ["Tours"],
         }),
 
-        // ▶ Detalle de tour
-        getTourById: builder.query<TourDetailApiResponse, string>({
+        // ▶ Listar recorridos para ADMIN
+        getAdminTours: builder.query<AdminToursListApiResponse, void>({
+            query: () => ({
+                url: "/api/tours/admin",
+                method: "GET",
+            }),
+            providesTags: ["Tours"],
+        }),
+
+        getTourById: builder.query<TourByIdResponse, string>({
             query: (id) => `/api/tours/${id}`,
         }),
 
-        // ▶ Upload de imagen del tablero
         uploadBoardImage: builder.mutation<UploadImageApiResponse, File>({
             query: (file) => {
                 const formData = new FormData();
@@ -69,7 +87,6 @@ export const tourApi = induct3dApi.injectEndpoints({
             },
         }),
 
-        // ▶ Eliminar tour
         deleteTour: builder.mutation<SimpleMessageApiResponse, string>({
             query: (tourId) => ({
                 url: `/api/tours/${tourId}`,
@@ -78,7 +95,6 @@ export const tourApi = induct3dApi.injectEndpoints({
             invalidatesTags: ["Tours"],
         }),
 
-        // ▶ Actualizar tour
         updateTour: builder.mutation<
             SimpleMessageApiResponse,
             { id: string; data: CreateTourDTO }
@@ -87,6 +103,27 @@ export const tourApi = induct3dApi.injectEndpoints({
                 url: `/api/tours/${id}`,
                 method: "PUT",
                 body: data,
+            }),
+            invalidatesTags: ["Tours"],
+        }),
+        // ▶ Aprobar tour (ADMIN)
+        approveTour: builder.mutation<SimpleMessageApiResponse, string>({
+            query: (tourId) => ({
+                url: `/api/tours/${tourId}/approve`,
+                method: "POST",
+            }),
+            invalidatesTags: ["Tours"],
+        }),
+
+        // ▶ Rechazar tour (ADMIN) con razón
+        rejectTour: builder.mutation<
+            SimpleMessageApiResponse,
+            { id: string; reason: string }
+        >({
+            query: ({ id, reason }) => ({
+                url: `/api/tours/${id}/reject`,
+                method: "POST",
+                body: { reason },
             }),
             invalidatesTags: ["Tours"],
         }),
@@ -101,4 +138,7 @@ export const {
     useGetAllToursQuery,
     useDeleteTourMutation,
     useUpdateTourMutation,
+    useGetAdminToursQuery,
+    useApproveTourMutation,
+    useRejectTourMutation,
 } = tourApi;
