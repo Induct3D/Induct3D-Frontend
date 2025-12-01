@@ -2,20 +2,18 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { useDispatch } from "react-redux";
-import { useGetMyTemplatesQuery } from "../../../infrastructure/api/templateApi.ts";
+import {
+    useGetMyTemplatesQuery,
+    TemplateListDTO,
+} from "../../../infrastructure/api/templateApi.ts";
 import { useNavigate } from "react-router";
 import { setSelectedTemplate } from "../../../infrastructure/slices/selectedTemplateSlice.ts";
-import { ApiResponse } from "../../../infrastructure/schemas/ApiResponseSchema.ts";
-import { TemplateDTO } from "../../../infrastructure/schemas/TemplateSchema.ts";
 
 interface SelectTemplateModalProps {
     isOpen: boolean;
     onClose: () => void;
     onConfirm: (templateId: string | null) => void;
 }
-
-// 👇 Respuesta real del endpoint: { data: TemplateDTO[], meta? }
-type MyTemplatesResponse = ApiResponse<TemplateDTO[]>;
 
 export default function SelectTemplateModal({
                                                 isOpen,
@@ -24,17 +22,10 @@ export default function SelectTemplateModal({
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [activeSlide, setActiveSlide] = useState<Record<string, number>>({});
 
-    const {
-        data: rawData,
-        isLoading,
-        isError,
-    } = useGetMyTemplatesQuery();
-
-    // templatesResponse está tipado como ApiResponse<TemplateDTO[]> | undefined
-    const templatesResponse = rawData as MyTemplatesResponse | undefined;
+    const { data, isLoading, isError } = useGetMyTemplatesQuery();
 
     // Array bien tipado de plantillas
-    const templates: TemplateDTO[] = templatesResponse?.data ?? [];
+    const templates: TemplateListDTO[] = data?.data ?? [];
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -72,7 +63,7 @@ export default function SelectTemplateModal({
                 setSelectedTemplate({
                     id: selectedTemplate.id,
                     glbUrl: selectedTemplate.glbUrl,
-                })
+                }),
             );
             onClose();
             navigate(`/dashboard/crear?template=${selectedTemplate.id}`);
@@ -98,7 +89,9 @@ export default function SelectTemplateModal({
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[60vh] overflow-y-auto pr-2">
                         {isLoading ? (
-                            <p className="text-center col-span-3">Cargando plantillas...</p>
+                            <p className="text-center col-span-3">
+                                Cargando plantillas...
+                            </p>
                         ) : isError ? (
                             <p className="text-center col-span-3 text-red-600">
                                 No se pudieron cargar las plantillas.
@@ -145,7 +138,9 @@ export default function SelectTemplateModal({
                                             </>
                                         )}
                                     </div>
-                                    <h3 className="font-medium text-lg mb-1">{template.name}</h3>
+                                    <h3 className="font-medium text-lg mb-1">
+                                        {template.name}
+                                    </h3>
                                     <p className="text-sm text-gray-600">
                                         {template.description}
                                     </p>

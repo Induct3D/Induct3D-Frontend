@@ -99,6 +99,8 @@ export default function Dashboard() {
                                     title={tour.tourName || "Sin título"}
                                     description={tour.description}
                                     imageUrl="/img/LateralOfficeTemplate.png"
+                                    status={tour.status}                // 👈 NUEVO
+                                    rejectionReason={tour.rejectionReason} // 👈 NUEVO
                                     onDelete={() =>
                                         setTourToDelete({
                                             id: tour.tourId,

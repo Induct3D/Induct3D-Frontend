@@ -1,13 +1,14 @@
 // src/infrastructure/api/tourApi.ts
 import { induct3dApi } from "./induct3dApi.ts";
 import { CreateTourDTO } from "../schemas/CreateTourSchema.ts";
-import { Tour } from "../schemas/TourSchema.ts";
+import {MyTour, Tour} from "../schemas/TourSchema.ts";
 import { TourByIdResponse } from "../schemas/TourByIdSchema.ts";
 import { ApiResponse } from "../schemas/ApiResponseSchema.ts";
 import { MessageResponse } from "../schemas/MessageResponseSchema.ts";
 
 // 🔹 Tipos de respuesta
 type ToursListApiResponse = ApiResponse<Tour[]>;
+type MyToursApiResponse = ApiResponse<MyTour[]>;
 type CreateTourApiResponse = ApiResponse<TourByIdResponse>;
 type UploadImageApiResponse = ApiResponse<{ url: string }>;
 type SimpleMessageApiResponse = ApiResponse<MessageResponse>;
@@ -37,7 +38,7 @@ export const tourApi = induct3dApi.injectEndpoints({
         }),
 
         // ▶ Mis tours (CREATOR) con paginación (size = 9)
-        getMyTours: builder.query<ToursListApiResponse, number | void>({
+        getMyTours: builder.query<MyToursApiResponse, number | void>({
             query: (page = 1) => ({
                 url: "/api/tours/my",
                 method: "GET",

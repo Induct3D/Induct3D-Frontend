@@ -122,11 +122,12 @@ export default function AdminViewTour() {
                 steps={tour.steps}
                 materialColors={tour.materialColors}
                 userStart={tour.userStart}
-                tourTitle={tour.tourName}
+                tourTitle={tour.tourName ?? "Recorrido sin título"}
                 isAdmin={true}
                 onAdminApprove={handleApprove}
                 onAdminReject={openRejectModal}
             />
+
 
             {/* Modal de rechazo (encima de todo) */}
             <RejectTourModal

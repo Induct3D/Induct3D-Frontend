@@ -49,7 +49,7 @@ export default function ViewTour() {
                 steps={tour.steps}
                 materialColors={tour.materialColors}
                 userStart={tour.userStart}
-                tourTitle={tour.tourName} // 👈 aquí va el título
+                tourTitle={tour.tourName ?? "Recorrido sin título"}
             />
         </div>
     );

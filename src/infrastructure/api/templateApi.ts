@@ -2,9 +2,21 @@
 import { induct3dApi } from "./induct3dApi.ts";
 import { TemplateDTO, TemplateSchema } from "../schemas/TemplateSchema.ts";
 import { ApiResponse } from "../schemas/ApiResponseSchema.ts";
+import { z } from "zod";
+
+// 👇 Schema y tipo para el LISTADO (solo las props que devuelve /api/templates)
+const TemplateListItemSchema = TemplateSchema.pick({
+    id: true,
+    name: true,
+    description: true,
+    images: true,
+    glbUrl: true,
+});
+
+export type TemplateListDTO = z.infer<typeof TemplateListItemSchema>;
 
 // 👇 Tipos de respuesta del backend
-export type TemplatesListApiResponse = ApiResponse<TemplateDTO[]>;
+export type TemplatesListApiResponse = ApiResponse<TemplateListDTO[]>;
 export type TemplateDetailApiResponse = ApiResponse<TemplateDTO>;
 
 export const templateApi = induct3dApi.injectEndpoints({
@@ -15,9 +27,11 @@ export const templateApi = induct3dApi.injectEndpoints({
                 url: "/api/templates",
                 method: "GET",
             }),
-            // Validamos el array con Zod
-            transformResponse: (response: ApiResponse<unknown>): TemplatesListApiResponse => {
-                const parsed = TemplateSchema.array().safeParse(response.data);
+            // Validamos la LISTA con el schema reducido
+            transformResponse: (
+                response: ApiResponse<unknown>,
+            ): TemplatesListApiResponse => {
+                const parsed = TemplateListItemSchema.array().safeParse(response.data);
                 if (!parsed.success) {
                     console.error("Template list validation error:", parsed.error);
                     throw new Error("Invalid templates data");
@@ -25,18 +39,20 @@ export const templateApi = induct3dApi.injectEndpoints({
 
                 return {
                     ...response,
-                    data: parsed.data, // ahora sí TemplateDTO[]
+                    data: parsed.data, // TemplateListDTO[]
                 };
             },
         }),
 
-        // ▶ Obtener un template por su id
+        // ▶ Obtener un template por su id (aquí sí necesitamos todo)
         getTemplateById: builder.query<TemplateDetailApiResponse, string>({
             query: (templateId) => ({
                 url: `/api/templates/${templateId}`,
                 method: "GET",
             }),
-            transformResponse: (response: ApiResponse<unknown>): TemplateDetailApiResponse => {
+            transformResponse: (
+                response: ApiResponse<unknown>,
+            ): TemplateDetailApiResponse => {
                 const parsed = TemplateSchema.safeParse(response.data);
                 if (!parsed.success) {
                     console.error("Template detail validation error:", parsed.error);
