@@ -29,6 +29,13 @@ export default function Footer() {
                     >
                         Consentimiento Informado
                     </a>
+                    <span className="hidden md:inline text-gray-500">|</span>
+                    <a
+                        href="/sostenibilidad"
+                        className="hover:text-[#A71C20] transition-colors duration-200"
+                    >
+                        Prácticas de Uso Sostenible
+                    </a>
                 </div>
 
                 {/* Información final */}

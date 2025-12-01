@@ -22,6 +22,7 @@ import AdminDashboard from "../../presentation/pages/Admin/Dashboard.tsx";
 import ManageTours from "../../presentation/pages/Admin/ManageTours.tsx";
 import ProfilePage from "../../presentation/pages/Creator/ProfilePage.tsx";
 import AdminViewTour from "../../presentation/pages/Admin/AdminViewTour.tsx";
+import SustainableUse from "../../presentation/pages/SustainableUse.tsx";
 
 export const router = createBrowserRouter([
     // Públicas
@@ -34,6 +35,7 @@ export const router = createBrowserRouter([
             { path: "terms", element: <Terms /> },
             { path: "privacy", element: <Privacy /> },
             { path: "consent", element: <Consent /> },
+            { path: "sostenibilidad", element: <SustainableUse /> },
         ],
     },
     { path: "recorrido/:id", element: <ViewTour /> },

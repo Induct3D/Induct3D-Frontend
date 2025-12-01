@@ -123,7 +123,7 @@ export default function AdminDashboard() {
                                 title={tour.tourName}
                                 description={tour.description}
                                 status={tour.status}
-                                imageUrl={"/img/TopOfficeTemplate.png"}
+                                imageUrl={"https://res.cloudinary.com/dcaklppjz/image/upload/v1764625744/TopOfficeTemplate_wycxiv.png"}
                                 onApprove={handleApprove}
                                 onReject={openRejectModal}
                             />
