@@ -90,7 +90,7 @@ export default function EditorAvanzado({
 
     const handleUploadImage = async (file: File): Promise<string> => {
         const result = await uploadImage(file).unwrap();
-        return result.url;
+        return result.data.url;
     };
 
     return (

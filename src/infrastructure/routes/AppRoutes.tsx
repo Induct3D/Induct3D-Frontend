@@ -21,6 +21,7 @@ import AdminLayout from "../../presentation/layout/AdminLayout.tsx";
 import AdminDashboard from "../../presentation/pages/Admin/Dashboard.tsx";
 import ManageTours from "../../presentation/pages/Admin/ManageTours.tsx";
 import ProfilePage from "../../presentation/pages/Creator/ProfilePage.tsx";
+import AdminViewTour from "../../presentation/pages/Admin/AdminViewTour.tsx";
 
 export const router = createBrowserRouter([
     // Públicas
@@ -37,6 +38,8 @@ export const router = createBrowserRouter([
 
     },
     { path: "recorrido/:id", element: <ViewTour /> },
+    { path: "admin/recorrido/:id", element: <AdminViewTour /> },
+
 
 
     // Auth públicas (solo si NO hay token)

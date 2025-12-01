@@ -1,3 +1,5 @@
+// src/presentation/pages/ViewTour.tsx
+
 import { useParams } from "react-router";
 import { useGetTourByIdQuery } from "../../infrastructure/api/tourApi.ts";
 import TourViewerCanvas from "../components/3d/TourViewerCanvas.tsx";
@@ -7,7 +9,6 @@ export default function ViewTour() {
     const { id } = useParams<{ id: string }>();
     const [showCrosshair] = useState(true);
 
-    // tour ahora es TourByIdResponse | undefined
     const {
         data: tour,
         isLoading,
@@ -48,6 +49,7 @@ export default function ViewTour() {
                 steps={tour.steps}
                 materialColors={tour.materialColors}
                 userStart={tour.userStart}
+                tourTitle={tour.tourName} // 👈 aquí va el título
             />
         </div>
     );

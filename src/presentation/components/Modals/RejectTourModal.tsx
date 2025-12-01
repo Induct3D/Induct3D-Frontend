@@ -1,3 +1,5 @@
+// src/presentation/components/Modals/RejectTourModal.tsx
+
 import { useState, useEffect } from "react";
 
 interface RejectTourModalProps {
@@ -15,7 +17,6 @@ export default function RejectTourModal({
                                         }: RejectTourModalProps) {
     const [reason, setReason] = useState("");
 
-    // limpiar al abrir/cerrar
     useEffect(() => {
         if (!isOpen) {
             setReason("");
@@ -28,11 +29,10 @@ export default function RejectTourModal({
         e.preventDefault();
         if (!reason.trim() || loading) return;
         onConfirm(reason.trim());
-        onClose(); // 👈 cerrar el modal inmediatamente después de confirmar
     };
 
     return (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40">
+        <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/40">
             <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-6">
                 <h3 className="text-lg font-semibold text-gray-800 mb-3">
                     Rechazar recorrido

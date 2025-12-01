@@ -26,6 +26,10 @@ export type TourViewerCanvasProps = {
     steps: Step[];
     materialColors: Record<string, string>;
     userStart: LocalVector3;
+    tourTitle?: string;
+    isAdmin?: boolean;
+    onAdminApprove?: () => void;
+    onAdminReject?: () => void;
 };
 
 export type SceneModelProps = {

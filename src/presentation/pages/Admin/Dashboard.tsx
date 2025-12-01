@@ -133,7 +133,7 @@ export default function AdminDashboard() {
                     {tours.length > 6 && (
                         <div className="mt-6 flex justify-center">
                             <Link
-                                to="/admin/gestionar-recorridos"
+                                to="/admin/recorridos"
                                 className="bg-gray-800 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition"
                             >
                                 Ver más recorridos

@@ -66,7 +66,7 @@ export default function AdminTourCard({
 
                 <div className="mt-auto flex flex-wrap gap-2">
                     <Link
-                        to={`/recorrido/${id}`}
+                        to={`/admin/recorrido/${id}`}
                         className="flex-1 min-w-[90px] text-center bg-[#A71C20] text-white text-sm font-semibold py-2 px-3 rounded hover:opacity-90 transition"
                     >
                         Ver
